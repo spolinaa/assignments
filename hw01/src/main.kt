@@ -1,6 +1,6 @@
 /* Heapsort; Find a max sum of tree from node to leaf;
 Fold for trees; Some operations (+, -, *, power) with Peano numbers
-(expectation: 3 h; reality: 7 h)
+(expectation: 3 h; reality: 7,5 h)
 by Sokolova Polina */
 
 //Heapsort
@@ -115,14 +115,14 @@ abstract class Peano {}
 class Zero() : Peano() {}
 class S(val value : Peano) : Peano() {}
 
-fun Peano.print(s : String) : String {
+fun Peano.print()  {
     when (this) {
-        is Zero -> { return s + "Zero" }
+        is Zero -> { print("Zero\n") }
         is S    -> {
-            return value.print("S " + s)
+            print("S ")
+            value.print()
         }
     }
-    return ""
 }
 fun Peano.addition(a : Peano) : Peano {
     when (this) {
@@ -145,6 +145,32 @@ fun Peano.substraction(a : Peano) : Peano {
             when (a) {
                 is Zero -> { return this }
                 is S    -> { return value.substraction(a.value) }
+            }
+        }
+    }
+    return Zero()
+}
+
+fun Peano.multiplication(a : Peano) : Peano {
+    when (this) {
+        is Zero -> { return Zero() }
+        is S    -> {
+            when (a) {
+                is Zero -> { return Zero() }
+                is S    -> { return this.addition(this.multiplication(a.value)) }
+            }
+        }
+    }
+    return Zero()
+}
+
+fun Peano.power(a : Peano) : Peano {
+    when (this) {
+        is Zero -> { return Zero() }
+        is S -> {
+            when (a) {
+                is Zero -> { return S(Zero()) }
+                is S    -> { return this.multiplication(this.power(a.value)) }
             }
         }
     }
@@ -176,7 +202,6 @@ fun main(args: Array<String>) {
     }
     println("\n")
 
-
     val a = 1
     val b = 10
     val c = -4
@@ -191,41 +216,63 @@ fun main(args: Array<String>) {
     println(t1.myFold({ (a, b) -> if (a < b) b else a }, 0))
     print("Tree.myFold (multiplication) = ")
     println(t1.myFold({ (a, b) -> a * b }, 1))
-
     println()
+
     println(t2.toText())
     print("Tree.findMaxSum = ")
     println(t2.findMaxSum(0, { (a, b) -> a + b }))
     print("Tree.myFold (min element) = ")
-    println(t2.myFold({ (a, b) -> if (a > b) b else a }, 0)) //find a min element
+    println(t2.myFold({ (a, b) -> if (a > b) b else a }, 0)) 
     print("Tree.myFold (sum) = ")
-    println(t2.myFold({ (a, b) -> a + b }, 0)) //return a sum of elements
-
+    println(t2.myFold({ (a, b) -> a + b }, 0)) 
+    println()
 
     val p1 = S(S(Zero()))
     val p2 = S(S(S(Zero())))
     val p3 = Zero()
 
-    println()
     print("Peano.addition (2 + 3) = ")
-    println((p1.addition(p2).print("")))
+    p1.addition(p2).print()
+    print("Peano.addition (3 + 2) = ")
+    p2.addition(p1).print()
     print("Peano.addition (2 + 0) = ")
-    println((p1.addition(p3).print("")))
+    p1.addition(p3).print()
     print("Peano.addition (0 + 3) = ")
-    println((p3.addition(p2).print("")))
+    p3.addition(p2).print()
     print("Peano.addition (0 + 0) = ")
-    println((p3.addition(p3).print("")))
-
+    p3.addition(p3).print()
     println()
-    print("Peano.substraction (3 - 2) = ")
-    println((p2.substraction(p1).print("")))
-    print("Peano.substraction (0 - 3) = ")
-    println((p3.substraction(p2).print("")))
-    print("Peano.substraction (2 - 0) = ")
-    println((p1.substraction(p3).print("")))
-    print("Peano.substraction (2 - 3) = ")
-    println((p1.substraction(p2).print("")))
-    print("Peano.substraction (0 - 0) = ")
-    println((p3.substraction(p3).print("")))
 
+    print("Peano.substraction (3 - 2) = ")
+    p2.substraction(p1).print()
+    print("Peano.substraction (0 - 3) = ")
+    p3.substraction(p2).print()
+    print("Peano.substraction (2 - 0) = ")
+    p1.substraction(p3).print()
+    print("Peano.substraction (2 - 3) = ")
+    p1.substraction(p2).print()
+    print("Peano.substraction (0 - 0) = ")
+    p3.substraction(p3).print()
+    println()
+
+    print("Peano.multiplication (3 * 2) = ")
+    p2.multiplication(p1).print()
+    print("Peano.multiplication (2 * 3) = ")
+    p1.multiplication(p2).print()
+    print("Peano.multiplication (0 * 3) = ")
+    p3.multiplication(p2).print()
+    print("Peano.multiplication (2 * 0) = ")
+    p1.multiplication(p3).print()
+    print("Peano.multiplication (0 * 0) = ")
+    p3.multiplication(p3).print()
+    println()
+    
+    print("Peano.power (3 ^ 2) = ")
+    p2.power(p1).print()
+    print("Peano.power (2 ^ 3) = ")
+    p1.power(p2).print()
+    print("Peano.power (0 ^ 3) = ")
+    p3.power(p2).print()
+    print("Peano.power (2 ^ 0) = ")
+    p1.power(p3).print()
 }
