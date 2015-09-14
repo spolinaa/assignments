@@ -15,13 +15,13 @@ fun siftDown(a : Array<Int>, start : Int, end : Int) : Array<Int> {
     var root = start
     while (root * 2 + 1 <= end) {
         var child = root * 2 + 1
-        var swap = root
-        if (a[swap] < a[child]) { swap = child }
-        if ((child + 1 <= end) && (a[swap] < a[child + 1])) { swap = child + 1 }
-        if (swap == root) { return a }
+        var swapNum = root
+        if (a[swapNum] < a[child]) { swapNum = child }
+        if ((child + 1 <= end) && (a[swapNum] < a[child + 1])) { swapNum = child + 1 }
+        if (swapNum == root) { return a }
         else {
-            swap(a, root, swap)
-            root = swap
+            swap(a, root, swapNum)
+            root = swapNum
         }
     }
     return a
@@ -95,16 +95,16 @@ fun Tree.myFold(f : (Int, Int) -> Int, acc : Int) : Int {
     return acc
 }
 
-// Find max sum from node to leafs
-fun Tree.findMaxSum(acc : Int, f : (Int, Int) -> Int) : Int {
+// Find max sum on a path from a root to leafs
+fun Tree.findMaxSum(acc : Int) : Int {
     when (this) {
         is Empty -> { return acc }
         is Leaf  -> { return acc + value }
         is Node  -> {
-            val left = l.myFold(f, acc)
-            val right = r.myFold(f, acc)
-            if (left > right) { return l.findMaxSum(acc + value, f) }
-            else { return r.findMaxSum(acc + value, f) }
+            val left = l.findMaxSum(acc + value)
+            val right = r.findMaxSum(acc + value)
+            if (left > right) { return left }
+            else { return right }
         }
     }
     return acc
@@ -211,7 +211,7 @@ fun main(args: Array<String>) {
 
     println(t1.toText())
     print("Tree.findMaxSum = ")
-    println(t1.findMaxSum(0, { (a, b) -> a + b }))
+    println(t1.findMaxSum(0))
     print("Tree.myFold (max element) = ")
     println(t1.myFold({ (a, b) -> if (a < b) b else a }, 0))
     print("Tree.myFold (multiplication) = ")
@@ -220,7 +220,7 @@ fun main(args: Array<String>) {
 
     println(t2.toText())
     print("Tree.findMaxSum = ")
-    println(t2.findMaxSum(0, { (a, b) -> a + b }))
+    println(t2.findMaxSum(0))
     print("Tree.myFold (min element) = ")
     println(t2.myFold({ (a, b) -> if (a > b) b else a }, 0)) 
     print("Tree.myFold (sum) = ")
