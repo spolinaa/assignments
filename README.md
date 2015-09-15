@@ -8,5 +8,5 @@ The repository to fork and complete assignments in it.
 4. (4 points) The Peano arithmetic (+, -, *, ^) in an object-oriented manner.
 
 ## Homework 2:
-1. (4 points) Previous homework using Unit tests and Gradle.
-2. (4 points) Computer network assignment from the spring term.
+5. (4 points) Previous homework using Unit tests and Gradle.
+6. (4 points) Computer network assignment from the spring term.
