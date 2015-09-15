@@ -10,4 +10,4 @@ The result [table](https://docs.google.com/spreadsheets/d/1kmUJBEjTM9AaVXt_Cd_I2
 
 ### Homework 2 (15.09 - 29.09):
 1. (4 points) Previous homework using Unit tests and Gradle.
-2. (4 points) Computer network assignment from the spring term.
+2. (4 points) The computer network assignment from the spring term.
