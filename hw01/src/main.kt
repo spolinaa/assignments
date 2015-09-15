@@ -90,7 +90,11 @@ fun Tree.myFold(f : (Int, Int) -> Int, acc : Int) : Int {
     when (this) {
         is Empty -> { return acc }
         is Leaf  -> { return f(acc, value)}
-        is Node  -> { return r.myFold(f, l.myFold(f, f(acc, value))) }
+        is Node  -> {
+            val left = l.myFold(f, acc)
+            val right = r.myFold(f, acc)
+            return f(f(left, right), value)
+        }
     }
     return acc
 }
@@ -101,10 +105,10 @@ fun Tree.findMaxSum(acc : Int) : Int {
         is Empty -> { return acc }
         is Leaf  -> { return acc + value }
         is Node  -> {
-            val left = l.findMaxSum(acc + value)
-            val right = r.findMaxSum(acc + value)
-            if (left > right) { return left }
-            else { return right }
+            val left = l.findMaxSum(acc)
+            val right = r.findMaxSum(acc)
+            if (left > right) { return left + value }
+            else { return right + value }
         }
     }
     return acc
