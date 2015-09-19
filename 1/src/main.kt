@@ -86,14 +86,14 @@ fun Tree.toText(): String {
 }
 
 //Fold for trees
-fun Tree.myFold(f : (Int, Int) -> Int, acc : Int) : Int {
+fun Tree.myFold(f : (Int, Int) -> Int, acc : Int, fSide : (Int, Int) -> Int) : Int {
     when (this) {
         is Empty -> { return acc }
         is Leaf  -> { return f(acc, value)}
         is Node  -> {
-            val left = l.myFold(f, acc)
-            val right = r.myFold(f, acc)
-            return f(f(left, right), value)
+            val left = l.myFold(f, acc, fSide)
+            val right = r.myFold(f, acc, fSide)
+            return f(fSide(left, right), value)
         }
     }
     return acc
@@ -217,18 +217,20 @@ fun main(args: Array<String>) {
     print("Tree.findMaxSum = ")
     println(t1.findMaxSum(0))
     print("Tree.myFold (max element) = ")
-    println(t1.myFold({ (a, b) -> if (a < b) b else a }, 0))
+    println(t1.myFold({ (a, b) -> if (a < b) b else a }, 0,
+            { (a, b) -> if (a < b) b else a }))
     print("Tree.myFold (multiplication) = ")
-    println(t1.myFold({ (a, b) -> a * b }, 1))
+    println(t1.myFold({ (a, b) -> a * b }, 1, { (a, b) -> a * b }))
     println()
 
     println(t2.toText())
     print("Tree.findMaxSum = ")
     println(t2.findMaxSum(0))
     print("Tree.myFold (min element) = ")
-    println(t2.myFold({ (a, b) -> if (a > b) b else a }, 0)) 
+    println(t2.myFold({ (a, b) -> if (a > b) b else a }, 0,
+            { (a, b) -> if (a > b) b else a }))
     print("Tree.myFold (sum) = ")
-    println(t2.myFold({ (a, b) -> a + b }, 0)) 
+    println(t2.myFold({ (a, b) -> a + b }, 0, { (a, b) -> a + b }))
     println()
 
     val p1 = S(S(Zero()))
@@ -270,7 +272,7 @@ fun main(args: Array<String>) {
     print("Peano.multiplication (0 * 0) = ")
     p3.multiplication(p3).print()
     println()
-    
+
     print("Peano.power (3 ^ 2) = ")
     p2.power(p1).print()
     print("Peano.power (2 ^ 3) = ")
