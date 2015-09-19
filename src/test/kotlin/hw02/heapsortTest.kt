@@ -1,6 +1,7 @@
 package hw02
 
 import org.junit.Test
+import java.util.*
 import kotlin.test.assertEquals
 
 public class heapsortTest {
@@ -24,6 +25,23 @@ public class heapsortTest {
             i++
         }
     }
+
+    @Test fun generalTestBigArray() {
+        val temp = linkedListOf() : LinkedList<Int>
+        val rand = Random()
+        val length = 10000
+        for (i in 0..length - 1)
+            temp.add(rand.nextInt())
+        val ar = temp.toTypedArray()
+        val res = ar.heapsort()
+        val correct = ar.sorted()
+        var i = 0;
+        while (i < res.lastIndex) {
+            assertEquals(res[i], correct[i])
+            i++
+        }
+    }
+
     @Test fun arrayLength1Test() {
         val ar = arrayOf(0)
         val res = ar.heapsort()

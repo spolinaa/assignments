@@ -45,6 +45,7 @@ fun Tree.print () : Unit
     return fold(println("\n"), {value, acc -> println("$value")},
             {l, r -> Unit})
 }
+/*
 fun main(args : Array<String>)
 {
     var tree = genTree(0, 5)
@@ -52,3 +53,4 @@ fun main(args : Array<String>)
     println("$sum")
     tree.print()
 }
+*/
