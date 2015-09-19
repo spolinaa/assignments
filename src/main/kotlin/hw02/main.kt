@@ -29,7 +29,6 @@ class Computer(val os : String, val infected : Boolean, val number : Int) {
         if (this.isInfected()) { return "+" }
         else { return "-"}
     }
-
 }
 
 class LocalNetwork(val os : Array<String>, val connected : Array<Array<Boolean>>,
@@ -81,6 +80,4 @@ class LocalNetwork(val os : Array<String>, val connected : Array<Array<Boolean>>
         print("\n")
     }
 }
-fun main(args : Unit) {
-
-}
+fun main() {}
