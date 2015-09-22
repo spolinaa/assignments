@@ -6,17 +6,17 @@
 package hw02
 
 abstract class Peano {}
-class Zero : Peano () {}
-class S (val value : Peano) : Peano() {}
+public class Zero : Peano () {}
+public class S (val value : Peano) : Peano() {}
 
-fun Int.ToPeano () : Peano
+public fun Int.ToPeano () : Peano
 {
     if (this == 0) return Zero()
     else
         return S ((this - 1).ToPeano())
 }
 
-fun Peano.ToInt () : Int
+public fun Peano.ToInt () : Int
 {
     when (this)
     {
@@ -26,7 +26,7 @@ fun Peano.ToInt () : Int
     }
 }
 
-fun Peano.Subtract(sub : Peano) : Peano
+public fun Peano.Subtract(sub : Peano) : Peano
 {
     when (sub)
     {
@@ -42,7 +42,7 @@ fun Peano.Subtract(sub : Peano) : Peano
     }
 }
 
-fun Peano.Add(add : Peano) : Peano
+public fun Peano.Add(add : Peano) : Peano
 {
     when (this)
     {
@@ -52,7 +52,7 @@ fun Peano.Add(add : Peano) : Peano
     }
 }
 
-fun Peano.Mul(mul : Peano) : Peano
+public fun Peano.Mul(mul : Peano) : Peano
 {
     when (this)
     {
@@ -68,7 +68,7 @@ fun Peano.Mul(mul : Peano) : Peano
     }
 }
 
-fun Peano.Pow (pow : Peano) : Peano
+public fun Peano.Pow (pow : Peano) : Peano
 {
     when (this)
     {

@@ -23,9 +23,9 @@ open class Graph<A> (verges : Array<List<Int>>, vals : Array<A>) {
 }
 */
 
-class MyRandom () {
-    val a = Random()
-    fun getRandNum(randVal: Int): Double {
+internal class ManagableRandom() {
+    private val a = Random()
+    public fun getRandNum(randVal: Int): Double {
         when (randVal) {
             1 -> return 1.0
             0 -> return 0.0
@@ -48,13 +48,13 @@ class Net (verges : Array<List<Int>>, OSs : Array<String>) {
             i++
         }
     }
-    val comps = tempComps.reversed().toTypedArray()
+    public val comps = tempComps.reversed().toTypedArray()
 
-    fun isWay (beg: Int, end : Int) : Boolean {
+    private fun isWay (beg: Int, end : Int) : Boolean {
         return net[beg].contains(end)
     }
-    fun makeNextStep(randVal: Int) {
-        val rand = MyRandom()
+    public fun makeNextStep(randVal: Int) {
+        val rand = ManagableRandom()
 
         for (i in comps.indices)
             if (comps[i].infection == 2)
@@ -66,7 +66,7 @@ class Net (verges : Array<List<Int>>, OSs : Array<String>) {
         for (i in comps)
             if (i.infection == 1) i.infection = 2
     }
-    fun print() {
+    internal fun print() {
         println("""
         (0. Windows ${comps[0].infectionWord()}) --> (1. Linux   ${comps[1].infectionWord()}) --> (2. OS X ${comps[2].infectionWord()}) --> (3. Linux    ${comps[3].infectionWord()})
         |                  |                       |
@@ -79,17 +79,17 @@ class Net (verges : Array<List<Int>>, OSs : Array<String>) {
         (7. OS X ${comps[7].infectionWord()})
         \n\n""")
     }
-    fun infectionToList() : List<Int> {
+    public fun infectionToList() : List<Int> {
         val a = linkedListOf() : LinkedList<Int>
         for (i in comps)
             a.add(i.infection)
         return a
     }
 }
-class Computer (os : String) {
-    val name = os
-    var infection = 0
-    var infectionChance = 1.0//temporary
+public class Computer (os : String) {
+    public  val name            = os
+    public  var infection       = 0
+    public  var infectionChance = 1.0//temporary
     init {
         infectionChance =
                 when (name) {

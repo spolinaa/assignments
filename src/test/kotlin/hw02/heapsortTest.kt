@@ -1,5 +1,6 @@
 package hw02
 
+import hw02.heapsort
 import org.junit.Test
 import java.util.*
 import kotlin.test.assertEquals

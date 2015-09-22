@@ -1,5 +1,6 @@
 package hw02
 
+import hw02.Net
 import junit.framework.TestCase
 import org.junit.Test
 import org.junit.runners.Parameterized

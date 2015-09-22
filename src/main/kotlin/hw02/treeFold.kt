@@ -8,7 +8,7 @@ open class Empty() : Tree() {}
 open class Leaf(val value : Int) : Tree() {}
 open class Node(val value : Int, val l : Tree, val r : Tree) : Tree() {}
 
-fun genTree(lValue : Int, rValue : Int) : Tree {
+public fun genTree(lValue : Int, rValue : Int) : Tree {
     if (lValue >= rValue) {
         return Empty()
     }
@@ -20,14 +20,14 @@ fun genTree(lValue : Int, rValue : Int) : Tree {
     return Node(middle, genTree(lValue, middle), genTree(middle + 1, rValue))
 }
 //Task 2: the goal is to find max sum on the way from root to leaf.
-fun Tree.findMaxSum () : Int
+public fun Tree.findMaxSum () : Int
 {
     return fold(0, {acc, value -> acc + value},
             {l, r -> if (l > r) l else r
     })
 }
 //Task 3: write descending fold.
-fun <A> Tree.fold(acc : A, f : (Int, A) -> A, fNode : (A, A) -> A) : A {
+public fun <A> Tree.fold(acc : A, f : (Int, A) -> A, fNode : (A, A) -> A) : A {
     when (this) {
         is Empty -> return acc
         is Leaf  -> return f(value, acc)
@@ -40,7 +40,7 @@ fun <A> Tree.fold(acc : A, f : (Int, A) -> A, fNode : (A, A) -> A) : A {
         else -> throw Exception("Unknown class")
     }
 }
-fun Tree.print () : Unit
+public fun Tree.print () : Unit
 {
     return fold(println("\n"), {value, acc -> println("$value")},
             {l, r -> Unit})

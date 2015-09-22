@@ -53,7 +53,7 @@ private fun Array<Int>.sort () : Array<Int>
     return this
 }
 
-fun Array<Int>.heapsort() : Array<Int>
+public fun Array<Int>.heapsort() : Array<Int>
 {
     return heapify().sort()
 }
