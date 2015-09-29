@@ -1,4 +1,4 @@
-package Composite
+package patterns.composite
 
 /* Example of the usage of composite pattern
    in file system
