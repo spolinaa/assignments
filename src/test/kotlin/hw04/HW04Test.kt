@@ -21,59 +21,59 @@ public class HW04Test {
     }
 
     Test fun insert3() {
-        var tree : Tree = Empty()
+        var tree = Empty()
         assertEquals("Node(3, Empty, Empty)", tree.insert(3).treeToString())
     }
     Test fun insert5() {
-        val tree : MySet = Empty()
+        val tree = Empty()
         assertEquals("Node(5, Empty, Empty)", tree.insert(5).treeToString())
     }
     Test fun insert7() {
-        val tree : MySet = Node(5, Empty(), Empty())
+        val tree = Node(5, Empty(), Empty())
         assertEquals("Node(5, Empty, Node(7, Empty, Empty))",
                 tree.insert(7).treeToString())
     }
     Test fun insert9() {
-        val tree : MySet = Node(15, Empty(), Empty())
+        val tree = Node(15, Empty(), Empty())
         assertEquals("Node(15, Node(9, Empty, Empty), Empty)",
                 tree.insert(9).treeToString())
     }
     Test fun insert11() {
-        val tree : MySet = Node(8, Node(7, Empty(), Empty()), Node(9, Empty(), Empty()))
+        val tree = Node(8, Node(7, Empty(), Empty()), Node(9, Empty(), Empty()))
         assertEquals("Node(8, Node(7, Empty, Empty), Node(9, Empty, Node(11, Empty, Empty)))",
                 tree.insert(11).treeToString())
     }
     Test fun insert13SmallRight() {
-        val tree : MySet = Node(15, Node(14, Empty(), Empty()), Empty())
+        val tree = Node(15, Node(14, Empty(), Empty()), Empty())
         assertEquals("Node(14, Node(13, Empty, Empty), Node(15, Empty, Empty))",
                 tree.insert(13).treeToString())
     }
     Test fun insert15SmallLeft() {
-        val tree : MySet = Node(11, Empty(), Node(13, Empty(), Empty()))
+        val tree = Node(11, Empty(), Node(13, Empty(), Empty()))
         assertEquals("Node(13, Node(11, Empty, Empty), Node(15, Empty, Empty))",
                 tree.insert(15).treeToString())
     }
     Test fun insert17BigLeft() {
-        val tree : MySet = Node(15, Node(13, Empty(), Empty()), Node(21,
+        val tree = Node(15, Node(13, Empty(), Empty()), Node(21,
                 Node(19, Empty(), Empty()), Node(23, Empty(), Empty())))
         assertEquals("Node(19, Node(15, Node(13, Empty, Empty), " +
                 "Node(17, Empty, Empty)), Node(21, Empty, Node(23, Empty, Empty)))",
                 tree.insert(17).treeToString())
     }
     Test fun insert22BigRight() {
-        val tree : MySet = Node(25, Node(21, Node(19, Empty(), Empty()),
+        val tree = Node(25, Node(21, Node(19, Empty(), Empty()),
                 Node(23, Empty(), Empty())), Node(27, Empty(), Empty()))
         assertEquals("Node(23, Node(21, Node(19, Empty, Empty), Node(22, Empty, Empty)), " +
                 "Node(25, Empty, Node(27, Empty, Empty)))",
                 tree.insert(22).treeToString())
     }
     Test fun searchYes() {
-        val tree : MySet = Node(5, Node(3, Empty(), Empty()), Node(7, Node(6,
+        val tree = Node(5, Node(3, Empty(), Empty()), Node(7, Node(6,
                 Empty(), Empty()), Node(8, Empty(), Node(9, Empty(), Empty()))))
         assertEquals(true, tree.search(9))
     }
     Test fun searchNo() {
-        val tree : MySet = Node(5, Node(3, Empty(), Empty()), Node(7, Empty(), Empty()))
+        val tree = Node(5, Node(3, Empty(), Empty()), Node(7, Empty(), Empty()))
         assertEquals(false, tree.search(9))
     }
     Test fun searchNoInEmpty() {
@@ -106,19 +106,19 @@ public class HW04Test {
                 tree.delete(20).treeToString())
     }
     Test fun unionOfEmpty() {
-        val tree : MySet = Empty()
+        val tree = Empty()
         assertEquals("Empty", tree.union(tree))
     }
     Test fun union1() {
-        val tree : MySet = Node(5, Empty(), Empty())
+        val tree = Node(5, Empty(), Empty())
         assertEquals("Node(5, Empty, Empty)", tree.union(Empty()))
     }
     Test fun union2() {
-        val tree : MySet = Node(5, Empty(), Empty())
+        val tree = Node(5, Empty(), Empty())
         assertEquals("Node(5, Empty, Empty)", Empty().union(tree))
     }
-    val tree2 : MySet = Node(5, Node(3, Empty(), Empty()), Node(7, Empty(), Empty()))
-    val tree3 : MySet = Node(4, Node(2, Node(1, Empty(), Empty()), Node(3, Empty(), Empty())),
+    val tree2 = Node(5, Node(3, Empty(), Empty()), Node(7, Empty(), Empty()))
+    val tree3 = Node(4, Node(2, Node(1, Empty(), Empty()), Node(3, Empty(), Empty())),
             Node(5, Node(6, Empty(), Empty()), Empty()))
     Test fun union3() {
         val s = "Node(4, Node(2, Node(1, Empty, Empty), Node(3, Empty, Empty)), " +
