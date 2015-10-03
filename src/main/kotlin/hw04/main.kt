@@ -8,8 +8,8 @@ interface MySet {
     public fun insert(a : Int) : MySet
     public fun delete(a : Int) : MySet
     public fun search(a : Int) : Boolean
-    public fun union(t : MySet) : MySet
-    public fun intersection(t : MySet) : MySet
+    //public fun union(t : MySet) : MySet
+    //public fun intersection(t : MySet) : MySet
     public fun treeToString() : String
 }
 
@@ -161,7 +161,7 @@ open class Tree() : MySet {
             lText + vText + rText
         }
     }
-    override public fun union(t : MySet) : Tree {
+    public fun union(t : Tree) : Tree {
         if (this is Node) {
             var res = t.insert(this.value)
             res = res.union(l)
@@ -171,7 +171,7 @@ open class Tree() : MySet {
         return t as Tree
     }
 
-    override public fun intersection(t : MySet) : Tree {
+    public fun intersection(t : Tree) : Tree {
         when (this) {
             is Empty -> { return t as Tree }
             is Node  -> {
@@ -185,7 +185,4 @@ open class Tree() : MySet {
     }
 }
 
-fun main(args : Array<String>) {
-    var tree : Tree = Empty()
-    println(tree.height())
-}
+fun main(args : Array<String>) {}
