@@ -1,4 +1,4 @@
-package patterns
+package patterns.decorator
 
 /**
  * Created by Alexander Chebykin
@@ -50,15 +50,10 @@ class HorizontalScrollBarDecorator(windowToBeDecorated: Window) : WindowDecorato
     }
 
 }
-fun smth (a : Window) {
-    println("It works!")
-}
 public fun main(args : Array<String>) {
     val simpleWindow = SimpleWindow()
     val decoratedWindow = HorizontalScrollBarDecorator(VerticalScrollBarDecorator(simpleWindow))
     simpleWindow.draw()
     println()
     decoratedWindow.draw()
-
-    smth(decoratedWindow)
 }
