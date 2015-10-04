@@ -1,8 +1,8 @@
-group 'assignments'
+group 'assingments'
 version '1.0-SNAPSHOT'
 
 task wrapper(type: Wrapper) {
-  gradleVersion = '2.1'
+  gradleVersion = '2.2'
   distributionUrl = "https://services.gradle.org/distributions/gradle-$gradleVersion-all.zip"
 }
 
@@ -10,7 +10,8 @@ apply plugin: 'kotlin'
 apply plugin: 'application'
 
 defaultTasks 'test', 'run'
-mainClassName = 'patterns.PatternsPackage'
+
+mainClassName = 'classroom.c02.C02Package'
 
 sourceCompatibility = 1.5
 
@@ -23,7 +24,7 @@ dependencies {
     compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
 }
 buildscript {
-    ext.kotlin_version = '0.13.1513'
+    ext.kotlin_version = '0.13.1514'
     repositories {
         mavenCentral()
     }
