@@ -9,8 +9,8 @@ task wrapper(type: Wrapper) {
 apply plugin: 'kotlin'
 apply plugin: 'application'
 
-defaultTasks 'test'//, 'run'
-mainClassName = 'hw02.Hw02Package'
+defaultTasks 'test', 'run'
+mainClassName = 'patterns.PatternsPackage'
 
 sourceCompatibility = 1.5
 
