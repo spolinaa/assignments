@@ -107,15 +107,15 @@ public class HW04Test {
     }
     Test fun unionOfEmpty() {
         val tree = Empty()
-        assertEquals("Empty", tree.union(tree))
+        assertEquals("Empty", tree.union(tree).treeToString())
     }
     Test fun union1() {
         val tree = Node(5, Empty(), Empty())
-        assertEquals("Node(5, Empty, Empty)", tree.union(Empty()))
+        assertEquals("Node(5, Empty, Empty)", tree.union(Empty()).treeToString())
     }
     Test fun union2() {
         val tree = Node(5, Empty(), Empty())
-        assertEquals("Node(5, Empty, Empty)", Empty().union(tree))
+        assertEquals("Node(5, Empty, Empty)", Empty().union(tree).treeToString())
     }
     val tree2 = Node(5, Node(3, Empty(), Empty()), Node(7, Empty(), Empty()))
     val tree3 = Node(4, Node(2, Node(1, Empty(), Empty()), Node(3, Empty(), Empty())),
