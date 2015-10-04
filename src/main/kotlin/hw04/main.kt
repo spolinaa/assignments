@@ -1,29 +1,31 @@
 /* A set interface class with 2 implementations
-(expectation: 5 h; reality: 8 h)
+(expectation: 5 h; reality: 13 h)
 by Sokolova Polina*/
 
 package hw04
+
+import java.util.ArrayList
 
 interface MySet {
     public fun insert(a : Int) : MySet
     public fun delete(a : Int) : MySet
     public fun search(a : Int) : Boolean
-    //public fun union(t : MySet) : MySet
-    //public fun intersection(t : MySet) : MySet
-    public fun treeToString() : String
+    public fun union(t : MySet) : MySet
+    public fun intersection(t : MySet) : MySet
+    public fun setToString() : String
 }
 
 class Empty() : Tree() {}
-class Node(val value: Int, val l: Tree, val r: Tree): Tree() {}
+class Node(val value : Int, val l : Tree, val r : Tree) : Tree() {}
 open class Tree() : MySet {
-    internal fun height() : Int = if (this is Node) (1 + Math.max(l.height(), r.height())) else 0
-    internal fun balanceFactor() : Int = if (this is Node) (l.height() - r.height()) else 0
-    override public fun treeToString() : String {
+    internal fun height       () : Int = if (this is Node) (1 + Math.max(this.l.height(), this.r.height())) else 0
+    internal fun balanceFactor() : Int = if (this is Node) (this.l.height() - this.r.height()) else 0
+    override public fun setToString() : String {
         when (this) {
             is Node  -> {
-                val lRes = l.treeToString()
-                val rRes = r.treeToString()
-                return "Node($value, $lRes, $rRes)"
+                val lRes = this.l.setToString()
+                val rRes = this.r.setToString()
+                return "Node(${this.value}, $lRes, $rRes)"
             }
             else -> { return "Empty" }
         }
@@ -35,12 +37,12 @@ open class Tree() : MySet {
         var lR : Tree = Empty()
         var rR : Tree = Empty()
         if (this is Node) {
-            cValue = value
-            L = l
-            if (r is Node) {
-                rValue = r.value
-                lR = r.l
-                rR = r.r
+            cValue = this.value
+            L = this.l
+            if (this.r is Node) {
+                rValue = this.r.value
+                lR = this.r.l
+                rR = this.r.r
             }
         }
         return Node(rValue, Node(cValue, L, lR), rR)
@@ -52,12 +54,12 @@ open class Tree() : MySet {
         var lL : Tree = Empty()
         var rL : Tree = Empty()
         if (this is Node) {
-            R = r
-            cValue = value
-            if (l is Node) {
-                lValue = l.value
-                lL = l.l
-                rL = l.r
+            R = this.r
+            cValue = this.value
+            if (this.l is Node) {
+                lValue = this.l.value
+                lL = this.l.l
+                rL = this.l.r
             }
         }
         return Node(lValue, lL, Node(cValue, rL, R))
@@ -68,8 +70,8 @@ open class Tree() : MySet {
             if (balance == -2) {
                 when {
                     this.r.balanceFactor() > 0 -> {
-                        val right = r.smallRightRotation()
-                        val tree = Node(value, l, right)
+                        val right = this.r.smallRightRotation()
+                        val tree = Node(this.value, this.l, right)
                         return tree.smallLeftRotation()
                     }
                     else -> { return this.smallLeftRotation() }
@@ -78,8 +80,8 @@ open class Tree() : MySet {
             if (balance == 2) {
                 when {
                     this.l.balanceFactor() < 0 -> {
-                        val left = l.smallLeftRotation()
-                        val tree = Node(value, left, r)
+                        val left = this.l.smallLeftRotation()
+                        val tree = Node(this.value, left, this.r)
                         return tree.smallRightRotation()
                     }
                     else -> { return this.smallRightRotation() }
@@ -88,13 +90,15 @@ open class Tree() : MySet {
         }
         return this
     }
-    override fun insert(a : Int) : Tree {
+    override public fun insert(a : Int) : Tree {
         when (this) {
             is Empty -> { return Node(a, Empty(), Empty()) }
             is Node -> {
                 when {
-                    a < value -> { return Node(value, l.insert(a), r).balance() }
-                    a > value -> { return Node(value, l, r.insert(a)). balance() }
+                    a < this.value -> { return Node(this.value, this.l.insert(a),
+                            this.r).balance() }
+                    a > this.value -> { return Node(this.value, this.l,
+                            this.r.insert(a)).balance() }
                     else -> { return this }
                 }
             }
@@ -103,9 +107,9 @@ open class Tree() : MySet {
     }
     internal fun minInRight() : Int {
         if (this is Node) {
-            when (l) {
-                is Empty -> { return value }
-                is Node  -> { return l.minInRight() }
+            when (this.l) {
+                is Empty -> { return this.value }
+                is Node  -> { return this.l.minInRight() }
             }
         }
         return 0
@@ -113,24 +117,28 @@ open class Tree() : MySet {
     internal fun replace(a : Int, b : Int) : Tree {
         if (this is Node) {
             when {
-                a < value -> { return Node(value, l.replace(a, b), r) }
-                a > value -> { return Node(value, l, r.replace(a, b)) }
-                else -> { return Node(b, l, r) }
+                a < this.value -> { return Node(this.value,
+                        this.l.replace(a, b), this.r) }
+                a > this.value -> { return Node(this.value, this.l,
+                        this.r.replace(a, b)) }
+                else -> { return Node(b, this.l, this.r) }
             }
         }
         return Empty()
     }
-    override fun delete(a : Int) : Tree {
+    override public fun delete(a : Int) : Tree {
         if (this is Node) {
             when {
-                a < value -> { return Node(value, l.delete(a), r).balance() }
-                a > value -> { return Node(value, l, r.delete(a)).balance() }
+                a < this.value -> { return Node(this.value, this.l.delete(a),
+                        this.r).balance() }
+                a > this.value -> { return Node(this.value, this.l,
+                        this.r.delete(a)).balance() }
                 else -> {
-                    when (r) {
-                        is Empty -> { return l }
+                    when (this.r) {
+                        is Empty -> { return this.l }
                         is Node -> {
-                            val minValue = r.minInRight()
-                            val resTree = Node(value, l, r.delete(minValue))
+                            val minValue = this.r.minInRight()
+                            val resTree = Node(this.value, this.l, this.r.delete(minValue))
                             return resTree.replace(a, minValue).balance()
                         }
                     }
@@ -139,49 +147,105 @@ open class Tree() : MySet {
         }
         return Empty()
     }
-    override fun search(a : Int) : Boolean {
+    override public fun search(a : Int) : Boolean {
         if (this is Node) {
-            return (a == value) || l.search(a) || r.search(a)
+            return (a == this.value) || this.l.search(a) || this.r.search(a)
         }
         return false
     }
-    internal fun <B> fold(fEmpty: B, fNode: (Int, B, B) -> B) : B {
+    internal fun <B> fold(fEmpty : B, fNode : (Int, B, B) -> B) : B {
         when (this) {
             is Empty -> { return fEmpty }
-            is Node  -> { return fNode(value, l.fold(fEmpty, fNode),
-                    r.fold(fEmpty, fNode)) }
+            is Node  -> { return fNode(this.value, this.l.fold(fEmpty, fNode),
+                    this.r.fold(fEmpty, fNode)) }
         }
         return fEmpty
     }
-    public fun toText(): List<String> {
-        return fold(listOf("-\n")) {(value, lRes, rRes) ->
+    public fun toText() : List<String> {
+        return fold(listOf("-\n")) { value: Int, lRes: List<String>, rRes: List<String> ->
             val lText = lRes.map { "| $it" }
             val rText = rRes.map { "| $it" }
             val vText = listOf("$value\n")
             lText + vText + rText
         }
     }
-    public fun union(t : Tree) : Tree {
-        if (this is Node) {
-            var res = t.insert(this.value)
-            res = res.union(l)
-            res = res.union(r)
-            return res as Tree
+    override public fun union(t : MySet) : Tree {
+        when {
+            t is Node && this is Node -> {
+                var res = this.insert(t.value)
+                res = res.union(t.l)
+                res = res.union(t.r)
+                return res
+            }
+            t is Empty -> {
+                return this
+            }
+            else -> {
+                return t as Tree
+            }
         }
-        return t as Tree
     }
 
-    public fun intersection(t : Tree) : Tree {
-        when (this) {
-            is Empty -> { return t as Tree }
-            is Node  -> {
-                if (t is Node) {
-                    val res = this.delete(value)
-                    return res.intersection(t)
+    override public fun intersection(t : MySet) : Tree {
+        when {
+            this is Node && t is Node -> {
+                if (t.search(this.value)) {
+                    return Node(this.value, this.l.intersection(t), this.r.intersection(t))
                 }
+                var resL : Tree = this.l.intersection(t)
+                var resR : Tree = this.r.intersection(t)
+                return resL.union(resR)
+
+            }
+            else -> {
+                return Empty()
+            }
+        }
+    }
+}
+
+class HashTable(val size : Int) : MySet {
+    internal fun hash(a : Int) : Int = a mod size
+    var hashTable = Array(size, { i -> ArrayList<Int>() })
+    override public fun insert(a : Int) : HashTable {
+        if (!this.search(a)) { hashTable[hash(a)].add(0, a) }
+        return this
+    }
+    override public fun search(a : Int) : Boolean {
+        return hashTable[hash(a)].contains(a)
+    }
+    override public fun delete(a : Int) : HashTable {
+        if (this.search(a)) {
+            val index = hashTable[hash(a)].indexOf(a)
+            hashTable[hash(a)].remove(index) }
+        return this
+    }
+    override public fun union(t : MySet) : HashTable {
+        for (i in hashTable) {
+            for (j in i) {
+                t.insert(j)
+            }
+        }
+        return t as HashTable
+    }
+    override public fun intersection(t : MySet) : HashTable {
+        for (i in hashTable) {
+            for (j in i.toList()) {
+                if (!(t as HashTable).search(j)) { this.delete(j) }
             }
         }
         return this
+    }
+    override public fun setToString() : String {
+        var res = ""
+        for (i in hashTable) {
+            if (i.size() == 0) { res += "null" }
+            else {
+                for (j in i) { res = res + j + " " }
+            }
+            res += "\n"
+        }
+        return res
     }
 }
 
