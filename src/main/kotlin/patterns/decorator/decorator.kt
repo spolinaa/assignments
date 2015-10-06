@@ -1,59 +1,57 @@
-package patterns.decorator
+package patterns
 
-/**
- * Created by Alexander Chebykin
- */
-
-public abstract class Window {
+public abstract class Window{
     abstract fun draw()
 }
 
-// Extension of a simple Window without any scrollbars
-class SimpleWindow : Window() {
-    override fun draw() {
-        print("Window")
+class This_Window: Window(){
+    override fun draw(){
+        println("This is window")
     }
 }
 
-// abstract decorator class - note that it implements Window
-abstract class WindowDecorator(protected var windowToBeDecorated: Window // the Window being decorated
-) : Window() {
-    override fun draw() {
-        windowToBeDecorated.draw() //Delegation
+abstract class Decorator(var win: Window): Window(){
+    override fun draw(){
+        win.draw()
     }
-
-}
-// The first concrete decorator which adds vertical scrollbar functionality
-class VerticalScrollBarDecorator(windowToBeDecorated: Window) : WindowDecorator(windowToBeDecorated) {
-
-    override fun draw() {
-        super.draw()
-        drawVerticalScrollBar()
-    }
-
-    private fun drawVerticalScrollBar() {
-        print(", with vertical scrolling")
-    }
-
 }
 
-// The second concrete decorator which adds horizontal scrollbar functionality
-class HorizontalScrollBarDecorator(windowToBeDecorated: Window) : WindowDecorator(windowToBeDecorated) {
+class BorderDecorator (win: Window, width: Int): Decorator(win){
+    private val width = width
 
-    override fun draw() {
-        super.draw()
-        drawHorizontalScrollBar()
+    private fun DrawBorder(width: Int){
+        println("This is window with border width $width")
     }
-
-    private fun drawHorizontalScrollBar() {
-        print(", with horizontal scrolling")
+    override fun draw(){
+        DrawBorder(width)
     }
-
 }
-public fun main(args : Array<String>) {
-    val simpleWindow = SimpleWindow()
-    val decoratedWindow = HorizontalScrollBarDecorator(VerticalScrollBarDecorator(simpleWindow))
-    simpleWindow.draw()
-    println()
-    decoratedWindow.draw()
+
+class ShadowDecorator (win:Window): Decorator(win){
+    private fun MakeShadow(){
+        println("*with shadows*")
+    }
+    override fun draw(){
+        win.draw()
+        MakeShadow()
+    }
+}
+
+class ScrollDecorator (win: Window): Decorator(win){
+    private fun MakeScroll(){
+        println("*with scroll*")
+    }
+    override  fun draw(){
+        win.draw()
+        MakeScroll()
+    }
+}
+
+fun main (args : Array<String>){
+    val win = This_Window()
+    val decWin = ScrollDecorator(ShadowDecorator(BorderDecorator(win,5)))
+    println("///")
+    win.draw()
+    println("///")
+    decWin.draw()
 }
