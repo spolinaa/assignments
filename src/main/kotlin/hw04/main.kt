@@ -18,7 +18,7 @@ interface MySet {
 public class Empty() : Tree() {}
 public class Node(val value : Int, val l : Tree, val r : Tree) : Tree() {}
 open public class Tree() : MySet {
-    internal fun height       () : Int  {
+    internal fun height() : Int  {
         if (this is Node) { return 1 + Math.max(this.l.height(), this.r.height()) }
         return 0
     }
@@ -201,7 +201,6 @@ open public class Tree() : MySet {
             }
         }
     }
-
     override public fun intersection(t : MySet) : Tree {
         when (this) {
             is Node -> {
