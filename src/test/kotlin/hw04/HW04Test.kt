@@ -277,4 +277,88 @@ public class HW04Test {
         val h3 = h2.intersection(h1)
         assertEquals("null\n11 \n7 \nnull\n9 \n", h3.setToString())
     }
+    Test fun unionTH1() {
+        val t = Node(5, Node(3, Empty(), Empty()), Empty())
+        var h = HashTable(5)
+        h.insert(9)
+        h.insert(7)
+        h.insert(3)
+        h.insert(11)
+        val resTree  = t.union(h)
+        assertEquals("Node(5, Node(3, Empty, Empty), " +
+                             "Node(9, Node(7, Empty, Empty), Node(11, Empty, Empty)))",
+                resTree.setToString())
+    }
+    Test fun unionTH2() {
+        val t = Empty()
+        var h = HashTable(5)
+        h.insert(9)
+        h.insert(7)
+        h.insert(3)
+        h.insert(11)
+        val resTree  = t.union(h)
+        assertEquals("Node(7, Node(3, Empty, Empty), " +
+                             "Node(11, Node(9, Empty, Empty), Empty))",
+                resTree.setToString())
+    }
+    Test fun unionHT1() {
+        val t = Node(5, Node(3, Empty(), Empty()), Empty())
+        var h = HashTable(5)
+        h.insert(9)
+        h.insert(7)
+        h.insert(3)
+        h.insert(11)
+        val resHash  = h.union(t)
+        assertEquals("5 \n11 \n7 \n3 \n9 \n", resHash.setToString())
+    }
+    Test fun unionHT2() {
+        val t = Empty()
+        var h = HashTable(5)
+        h.insert(9)
+        h.insert(7)
+        h.insert(3)
+        h.insert(11)
+        val resHash  = h.union(t)
+        assertEquals(h, resHash)
+    }
+    Test fun interTH1() {
+        val t = Node(5, Node(3, Empty(), Empty()), Node(7, Empty(), Empty()))
+        var h = HashTable(5)
+        h.insert(9)
+        h.insert(7)
+        h.insert(3)
+        h.insert(11)
+        val resTree  = t.intersection(h)
+        assertEquals("Node(3, Empty, Node(7, Empty, Empty))", resTree.setToString())
+    }
+    Test fun interTH2() {
+        val t = Empty()
+        var h = HashTable(5)
+        h.insert(9)
+        h.insert(7)
+        h.insert(3)
+        h.insert(11)
+        val resTree  = t.intersection(h)
+        assertEquals("Empty", resTree.setToString())
+    }
+    Test fun interHT1() {
+        val t = Node(5, Node(3, Empty(), Empty()), Node(7, Empty(), Empty()))
+        var h = HashTable(5)
+        h.insert(9)
+        h.insert(7)
+        h.insert(3)
+        h.insert(11)
+        val resHash  = h.intersection(t)
+        assertEquals("null\nnull\n7 \n3 \nnull\n", resHash.setToString())
+    }
+    Test fun interHT2() {
+        val t = Empty()
+        var h = HashTable(5)
+        h.insert(9)
+        h.insert(7)
+        h.insert(3)
+        h.insert(11)
+        val resHash  = h.intersection(t)
+        assertEquals("null\nnull\nnull\nnull\nnull\n", resHash.setToString())
+    }
 }

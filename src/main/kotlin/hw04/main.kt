@@ -1,6 +1,6 @@
 /* A set interface class with 2 implementations
 (expectation: 5 h; reality: 13 h)
-by Sokolova Polina*/
+by Sokolova Polina */
 
 package hw04
 
@@ -15,11 +15,29 @@ interface MySet {
     public fun setToString() : String
 }
 
-class Empty() : Tree() {}
-class Node(val value : Int, val l : Tree, val r : Tree) : Tree() {}
-open class Tree() : MySet {
-    internal fun height       () : Int = if (this is Node) (1 + Math.max(this.l.height(), this.r.height())) else 0
-    internal fun balanceFactor() : Int = if (this is Node) (this.l.height() - this.r.height()) else 0
+//подписывать модификаторы
+// если в ифе много операций, в елсе - мало, изменить и убрать елс
+// a?.height() :? 0 - дефолтное значение
+//можно (a as? Tree).height()
+//можно продолжать выражение в элвисом a?.height()?.compareTo(5)
+//не использовать вар, если есть иф и елз с присваиванием - везде объявить отдельно
+//не менять ридми
+//не менять старые объекты, если возвращает myset - лучше unit, еще лучше -  создать новый mySet и его возвращать
+//mySet - или Tree или Hash - не кастить напрямую (as?) не факт, что придет дерево или таблица
+//убрать циклические зависимости
+//убрать пустой main
+
+public class Empty() : Tree() {}
+public class Node(val value : Int, val l : Tree, val r : Tree) : Tree() {}
+open public class Tree() : MySet {
+    internal fun height       () : Int  {
+        if (this is Node) { return 1 + Math.max(this.l.height(), this.r.height()) }
+        return 0
+    }
+    internal fun balanceFactor() : Int {
+        if (this is Node) { return this.l.height() - this.r.height() }
+        return 0
+    }
     override public fun setToString() : String {
         when (this) {
             is Node  -> {
@@ -134,6 +152,7 @@ open class Tree() : MySet {
                 a > this.value -> { return Node(this.value, this.l,
                         this.r.delete(a)).balance() }
                 else -> {
+
                     when (this.r) {
                         is Empty -> { return this.l }
                         is Node -> {
@@ -170,32 +189,40 @@ open class Tree() : MySet {
         }
     }
     override public fun union(t : MySet) : Tree {
-        when {
-            t is Node && this is Node -> {
+        when (t) {
+            is Node -> {
                 var res = this.insert(t.value)
                 res = res.union(t.l)
                 res = res.union(t.r)
                 return res
             }
-            t is Empty -> {
+            is HashTable -> {
+                var res = this
+                for (i in t.hashTable) {
+                    for (j in i) {
+                        res = res.insert(j)
+                    }
+                }
+                return res
+            }
+            is Empty -> {
                 return this
             }
             else -> {
-                return t as Tree
+                return Empty()
             }
         }
     }
 
     override public fun intersection(t : MySet) : Tree {
-        when {
-            this is Node && t is Node -> {
+        when (this) {
+            is Node -> {
                 if (t.search(this.value)) {
                     return Node(this.value, this.l.intersection(t), this.r.intersection(t))
                 }
                 var resL : Tree = this.l.intersection(t)
                 var resR : Tree = this.r.intersection(t)
                 return resL.union(resR)
-
             }
             else -> {
                 return Empty()
@@ -204,9 +231,9 @@ open class Tree() : MySet {
     }
 }
 
-class HashTable(val size : Int) : MySet {
+public class HashTable(val size : Int) : MySet {
     internal fun hash(a : Int) : Int = a mod size
-    var hashTable = Array(size, { i -> ArrayList<Int>() })
+    internal var hashTable = Array(size, { ArrayList<Int>() })
     override public fun insert(a : Int) : HashTable {
         if (!this.search(a)) { hashTable[hash(a)].add(0, a) }
         return this
@@ -221,17 +248,28 @@ class HashTable(val size : Int) : MySet {
         return this
     }
     override public fun union(t : MySet) : HashTable {
-        for (i in hashTable) {
-            for (j in i) {
-                t.insert(j)
+        when (t) {
+            is Node -> {
+                var res = this.insert(t.value)
+                res = res.union(t.l)
+                res = res.union(t.r)
+                return res
             }
+            is HashTable -> {
+                for (i in hashTable) {
+                    for (j in i) {
+                        t.insert(j)
+                    }
+                }
+                return t
+            }
+            else -> { return this }
         }
-        return t as HashTable
     }
     override public fun intersection(t : MySet) : HashTable {
         for (i in hashTable) {
             for (j in i.toList()) {
-                if (!(t as HashTable).search(j)) { this.delete(j) }
+                if (!t.search(j)) { this.delete(j) }
             }
         }
         return this
@@ -248,5 +286,3 @@ class HashTable(val size : Int) : MySet {
         return res
     }
 }
-
-fun main(args : Array<String>) {}
