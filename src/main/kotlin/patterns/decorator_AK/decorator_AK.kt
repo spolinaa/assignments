@@ -48,10 +48,10 @@ class ScrollDecorator (win: Window): Decorator(win){
 }
 
 /**fun main (args : Array<String>){
-val win = This_Window()
-val decWin = ScrollDecorator(ShadowDecorator(BorderDecorator(win,5)))
-println("///")
-win.draw()
-println("///")
-decWin.draw()
+    val win = This_Window()
+    val decWin = ScrollDecorator(ShadowDecorator(BorderDecorator(win,5)))
+    println("///")
+    win.draw()
+    println("///")
+    decWin.draw()
 }*/
