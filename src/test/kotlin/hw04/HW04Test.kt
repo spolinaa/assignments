@@ -121,13 +121,14 @@ public class HW04Test {
     val tree3 : MySet = Node(4, Node(2, Node(1, Empty(), Empty()), Node(3, Empty(), Empty())),
             Node(5, Empty(), Node(6, Empty(), Empty())))
     Test fun union3() {
-        val s = "Node(3, Node(2, Node(1, Empty, Empty), Empty), " +
-                "Node(5, Node(4, Empty, Empty), Node(7, Node(6, Empty, Empty), Empty)))"
+        val s = "Node(4, Node(2, Node(1, Empty, Empty), Node(3, Empty, Empty)), " +
+                        "Node(6, Node(5, Empty, Empty), Node(7, Empty, Empty)))"
         assertEquals(s, tree2.union(tree3).setToString())
     }
     Test fun union4() {
-        val s = "Node(4, Node(2, Node(1, Empty, Empty), Node(3, Empty, Empty)), " +
-                "Node(6, Node(5, Empty, Empty), Node(7, Empty, Empty)))"
+        val s = "Node(3, Node(2, Node(1, Empty, Empty), Empty), " +
+                        "Node(5, Node(4, Empty, Empty), " +
+                                "Node(7, Node(6, Empty, Empty), Empty)))"
         assertEquals(s, tree3.union(tree2).setToString())
     }
     Test fun interEmpty1() {
@@ -140,14 +141,13 @@ public class HW04Test {
         assertEquals("Empty", tree2.intersection(Empty()).setToString())
     }
     Test fun inter1() {
-        assertEquals("Node(5, Node(3, Empty, Empty), Empty)",
+        assertEquals("Node(3, Empty, Node(5, Empty, Empty))",
                 tree2.intersection(tree3).setToString())
     }
     Test fun inter2() {
-        assertEquals("Node(3, Empty, Node(5, Empty, Empty))",
+        assertEquals("Node(5, Node(3, Empty, Empty), Empty)",
                 tree3.intersection(tree2).setToString())
     }
-
     Test fun insertHash1() {
         var hashTable = HashTable(5)
         hashTable.insert(6)
@@ -219,7 +219,7 @@ public class HW04Test {
         h1.insert(11)
         h1.insert(12)
         var h3 = h2.union(h1)
-        val res = "null\n11 6 \n12 \nnull\nnull\n"
+        val res = "null\n6 11 \n12 \nnull\nnull\n"
         assertEquals(res, h3.setToString())
     }
     Test fun unionHash3() {
@@ -232,22 +232,22 @@ public class HW04Test {
     var h1 = HashTable(2)
     var h2 = HashTable(2)
     Test fun interHash1() {
-        var h3 = h1.union(h2)
+        var h3 = h1.intersection(h2)
         assertEquals("null\nnull\n", h3.setToString())
     }
     Test fun interHash2() {
-        var h3 = h2.union(h1)
+        var h3 = h2.intersection(h1)
         assertEquals("null\nnull\n", h3.setToString())
     }
     Test fun interHash3() {
         h1.insert(7)
-        var h3 = h2.union(h1)
-        assertEquals("null\n7 \n", h3.setToString())
+        var h3 = h2.intersection(h1)
+        assertEquals("null\nnull\n", h3.setToString())
     }
     Test fun interHash4() {
         h2.insert(7)
-        var h3 = h2.union(h1)
-        assertEquals("null\n7 \n", h3.setToString())
+        var h3 = h2.intersection(h1)
+        assertEquals("null\nnull\n", h3.setToString())
     }
     Test fun interHash5() {
         var h1 = HashTable(5)
@@ -285,8 +285,8 @@ public class HW04Test {
         h.insert(3)
         h.insert(11)
         val resTree  = t.union(h)
-        assertEquals("Node(5, Node(3, Empty, Empty), " +
-                             "Node(9, Node(7, Empty, Empty), Node(11, Empty, Empty)))",
+        assertEquals("Node(7, Node(3, Empty, Node(5, Empty, Empty)), " +
+                             "Node(11, Node(9, Empty, Empty), Empty))",
                 resTree.setToString())
     }
     Test fun unionTH2() {
@@ -319,7 +319,7 @@ public class HW04Test {
         h.insert(3)
         h.insert(11)
         val resHash  = h.union(t)
-        assertEquals(h, resHash)
+        assertEquals(h.setToString(), resHash.setToString())
     }
     Test fun interTH1() {
         val t = Node(5, Node(3, Empty(), Empty()), Node(7, Empty(), Empty()))
@@ -329,7 +329,7 @@ public class HW04Test {
         h.insert(3)
         h.insert(11)
         val resTree  = t.intersection(h)
-        assertEquals("Node(3, Empty, Node(7, Empty, Empty))", resTree.setToString())
+        assertEquals("Node(7, Node(3, Empty, Empty), Empty)", resTree.setToString())
     }
     Test fun interTH2() {
         val t = Empty()

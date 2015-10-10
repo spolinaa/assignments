@@ -13,6 +13,7 @@ interface MySet {
     public fun union(t : MySet) : MySet
     public fun intersection(t : MySet) : MySet
     public fun setToString() : String
+    public fun setToList() : List<Int>
 }
 
 public class Empty() : Tree() {}
@@ -140,7 +141,6 @@ open public class Tree() : MySet {
                 a > this.value -> { return Node(this.value, this.l,
                         this.r.delete(a)).balance() }
                 else -> {
-
                     when (this.r) {
                         is Empty -> { return this.l }
                         is Node -> {
@@ -177,43 +177,31 @@ open public class Tree() : MySet {
         }
     }
     override public fun union(t : MySet) : Tree {
-        when (t) {
-            is Node -> {
-                var res = this.insert(t.value)
-                res = res.union(t.l)
-                res = res.union(t.r)
-                return res
-            }
-            is HashTable -> {
-                var res = this
-                for (i in t.hashTable) {
-                    for (j in i) {
-                        res = res.insert(j)
-                    }
-                }
-                return res
-            }
-            is Empty -> {
-                return this
-            }
-            else -> {
-                return Empty()
-            }
-        }
+        val list1 = t.setToList()
+        val list2 = this.setToList()
+        var res : Tree = Empty()
+        for (i in list1) { res = res.insert(i) }
+        for (i in list2) { res = res.insert(i) }
+        return res
     }
     override public fun intersection(t : MySet) : Tree {
+        val list = t.setToList()
+        var res : Tree = Empty()
+        for (i in list) {
+            if (this.search(i)) {
+                res = res.insert(i)
+            }
+        }
+        return res
+    }
+    override public fun setToList() : List<Int> {
         when (this) {
             is Node -> {
-                if (t.search(this.value)) {
-                    return Node(this.value, this.l.intersection(t), this.r.intersection(t))
-                }
-                var resL : Tree = this.l.intersection(t)
-                var resR : Tree = this.r.intersection(t)
-                return resL.union(resR)
+                val left  = this.l.setToList()
+                val right = this.r.setToList()
+                return listOf(this.value) + left + right
             }
-            else -> {
-                return Empty()
-            }
+            else -> return listOf()
         }
     }
 }
@@ -235,31 +223,20 @@ public class HashTable(val size : Int) : MySet {
         return this
     }
     override public fun union(t : MySet) : HashTable {
-        when (t) {
-            is Node -> {
-                var res = this.insert(t.value)
-                res = res.union(t.l)
-                res = res.union(t.r)
-                return res
-            }
-            is HashTable -> {
-                for (i in hashTable) {
-                    for (j in i) {
-                        t.insert(j)
-                    }
-                }
-                return t
-            }
-            else -> { return this }
-        }
+        val list1 = t.setToList()
+        val list2 = this.setToList()
+        var res = HashTable(size)
+        for (i in list1) { res.insert(i) }
+        for (i in list2) { res.insert(i) }
+        return res
     }
     override public fun intersection(t : MySet) : HashTable {
-        for (i in hashTable) {
-            for (j in i.toList()) {
-                if (!t.search(j)) { this.delete(j) }
-            }
+        val list = t.setToList()
+        var res = HashTable(size)
+        for (i in list) {
+            if (this.search(i)) { res.insert(i) }
         }
-        return this
+        return res
     }
     override public fun setToString() : String {
         var res = ""
@@ -269,6 +246,13 @@ public class HashTable(val size : Int) : MySet {
                 for (j in i) { res = res + j + " " }
             }
             res += "\n"
+        }
+        return res
+    }
+    override public fun setToList() : List<Int> {
+        var res: List<Int> = listOf()
+        for (i in hashTable) {
+            res += i
         }
         return res
     }
