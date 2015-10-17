@@ -17,7 +17,6 @@ public fun mergeSort(a : Array<Int>, threadNumber: Int) : Array<Int> {
     //val startTime = System.currentTimeMillis();
     val maxThreadNumber = Math.min(a.size(), threadNumber) - 1
     val currentThread = 1
-    var threadArray : Array<Thread> = Array(maxThreadNumber + 1, {_ -> Thread() })
     fun merge(a : Array<Int>, start : Int, middle : Int, end : Int) {
         var leftArray = a.copyOfRange(start, middle + 1);
         var rightArray = a.copyOfRange(middle + 1, end + 1);
@@ -64,5 +63,4 @@ public fun Array<Int>.arrayToString() : String {
     return res
 }
 
-fun main(args: Array<String>) {
-}
+fun main(args: Array<String>) {}
