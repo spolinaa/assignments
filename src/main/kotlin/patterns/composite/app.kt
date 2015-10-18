@@ -1,40 +1,40 @@
-package patterns.composite
+package patterns.composite_example
 
-interface fileSystem
+interface FileSystem
 {
     var name  : String
     fun Rename(name:String){}
-    fun Add(type_ : fileSystem)
-    fun Remove(name: fileSystem)
+    fun Add(type_ : FileSystem)
+    fun Remove(name: FileSystem)
 
 }
 
 
-class File(name: String) : fileSystem
+class File(name: String) : FileSystem
 {
     override var name = name
     override  fun Rename(newName : String)
     {
         name = newName
     }
-    override fun Add(name: fileSystem){}
-    override fun Remove(name: fileSystem){throw Exception("Error")}
+    override fun Add(name: FileSystem){}
+    override fun Remove(name: FileSystem){throw Exception("Error")}
 }
 
 
 
-class Folder(name : String) : fileSystem {
+class Folder(name : String) : FileSystem {
 
-    var list = Array<fileSystem>(0,{File("root")}).toLinkedList()
+    var list = Array<FileSystem>(0,{File("root")}).toLinkedList()
     override var name = name
     override  fun Rename(newName : String)
     {
         name = newName
     }
-    override fun Add(name: fileSystem) {
+    override fun Add(name: FileSystem) {
         list.add(name)
     }
-    override fun Remove(name: fileSystem) {
+    override fun Remove(name: FileSystem) {
         list.remove(name)
     }
 }
