@@ -3,25 +3,24 @@ package Flyweight
 import java.util.*
 
 public abstract class House {
-    protected val floors: Int = 0
+    public abstract  val floors: Int
+    public abstract val materials: String
     public abstract fun Build (color: String, street: String)
 }
 
 public class PanelHouse : House() {
-    public fun PanelHouse() {
-        val floors = 16
-    }
+    override val floors = 16
+    override val materials = "panels"
     override fun Build(color: String, street: String ){
-        println("House is built of panels; 16 floors; $color color; $street street")
+        println("House is built of $materials; $floors floors; $color color; $street street")
     }
 }
 
 public class BrickHouse : House() {
-    public fun BrickHouse(){
-        val floors = 5
-    }
+    override val floors = 5
+    override val materials = "bricks"
     override fun Build(color: String, street: String ){
-        println("House is built of bricks; 5 floors; $color color; $street street")
+        println("House is built of $materials; $floors floors; $color color; $street street")
     }
 }
 
