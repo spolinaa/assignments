@@ -4,7 +4,6 @@ by Sokolova Polina */
 
 package hw06
 
-import patterns.Blue
 import javax.swing.*
 import java.awt.event.*
 import java.awt.*
@@ -34,9 +33,9 @@ class mainForm : JFrame(), ActionListener {
         add(northPanel, "North")
         add(centerPanel, "Center")
         add(southPanel, "South")
-        //northPanel.background = Color.blue
-        //southPanel.background = Color.blue
-        //centerPanel.background = Color.blue
+        northPanel.background = Color.cyan
+        southPanel.background = Color.cyan
+        centerPanel.background = Color.cyan
         southPanel.add(playButton)
         playButton.text = "Play"
         setSize(300, 350)
