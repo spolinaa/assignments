@@ -11,7 +11,7 @@ open internal class Logic() {
         array = arrayOf(arrayOf(0, 0, 0), arrayOf(0, 0, 0), arrayOf(0, 0, 0))
         turn = 0
     }
-    internal fun add(a : Int, b : Int) : Int {
+    public fun add(a : Int, b : Int) : Int {
         if (array[a][b] != 0) { return 3 }
         array[a][b] = (turn mod 2) + 1
         val line   = array[a][0] * array[a][1] * array[a][2]
