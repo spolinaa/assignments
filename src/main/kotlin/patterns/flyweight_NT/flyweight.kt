@@ -1,5 +1,3 @@
-import java.util.*
-
 public abstract class EnglishCharacter
 {
     protected abstract var symbol : Char
@@ -45,15 +43,15 @@ public class CharacterC : EnglishCharacter()
 
 public class FlyweightFactory
 {
-     public fun getCharacter(characterCode : Int) : EnglishCharacter
-     {
-         var character : EnglishCharacter? = null
+    public fun getCharacter(characterCode : Int) : EnglishCharacter
+    {
+        var character : EnglishCharacter? = null
 
-         when (characterCode){
+        when (characterCode){
             1 -> character = CharacterA()
             2 -> character = CharacterB()
             3 -> character = CharacterC()
-         }
+        }
 
 
         return character ?: throw Exception("Unknown letter");
