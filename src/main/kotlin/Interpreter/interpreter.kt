@@ -2,41 +2,41 @@ package Interpreter
 
 import java.util.*
 
-public interface Expression {
-    public fun interpret(tokens: Map<String, Expression>): Int
+public abstract class Expression {
+    public abstract fun interpret(tokens: Map<String, Expression>): Int
 }
 
-public class Number(private val number: Int) : Expression {
+public class Number(private val number: Int) : Expression() {
     override fun interpret(tokens: Map<String, Expression>): Int {
         return number
     }
 }
 
-public class Variable(private val variable: String) : Expression {
+public class Variable(private val variable: String) : Expression() {
     override fun interpret(tokens: Map<String, Expression>): Int {
-        return tokens.get(variable)?.interpret(tokens) ?: 0
+        return tokens.get(variable)?.interpret(tokens) ?: variable.toInt()
     }
 }
 
-public class Plus(var leftOperand: Expression, var rightOperand: Expression) : Expression {
+public class Plus(var leftOperand: Expression, var rightOperand: Expression) : Expression() {
     override fun interpret(tokens: Map<String, Expression>): Int {
         return leftOperand.interpret(tokens) + rightOperand.interpret(tokens)
     }
 }
 
-public class Minus(var leftOperand: Expression, var rightOperand: Expression) : Expression {
+public class Minus(var leftOperand: Expression, var rightOperand: Expression) : Expression() {
     override fun interpret(tokens: Map<String, Expression>): Int {
         return leftOperand.interpret(tokens) - rightOperand.interpret(tokens)
     }
 }
 
-public class Multi(var leftOperand: Expression, var rightOperand: Expression) : Expression {
+public class Multi(var leftOperand: Expression, var rightOperand: Expression) : Expression() {
     override fun interpret(tokens: Map<String, Expression>): Int {
         return leftOperand.interpret(tokens) * rightOperand.interpret(tokens)
     }
 }
 
-public class Calculator(expression: String): Expression {
+public class Calculator(expression: String): Expression() {
     private val syntaxTree: Expression
     init{
         val expressionStack = Stack<Expression>()
@@ -67,13 +67,12 @@ public class Calculator(expression: String): Expression {
 }
 
 fun main(args: Array<String>) {
-    val expression = "a b c * d - +"
+    val expression = "a b c * 6 - +"
     val sentence = Calculator(expression)
     var tokens = HashMap<String,Expression>()
     tokens.put("a", Number(1))
     tokens.put("b", Number(2))
     tokens.put("c", Number(3))
-    tokens.put("d", Number(4))
     val result = sentence.interpret(tokens)
     println(result)
 }
