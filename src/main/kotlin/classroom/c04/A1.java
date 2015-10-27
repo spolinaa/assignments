@@ -1,4 +1,4 @@
-package classroom.c04_new;
+package classroom.c04;
 
 public class A1 implements Comparable<A1> {
     public int compareTo(A1 other) {

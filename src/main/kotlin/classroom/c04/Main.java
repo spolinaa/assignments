@@ -1,27 +1,33 @@
 package classroom.c04;
 
 import java.util.HashMap;
-//import classroom.c04.kotlin.Pair;
+import classroom.c04.kotlin.Pair;
 
 public class Main {
     public static void main(String[] args) {
-        Pair<String, Integer> pair1 = new Pair<String, Integer>("a", 5);
-        // In Java you can't use primitive types as arguments of generics.
-        /// Pair pair2 = new Pair<String, int>("a", 5);
-        // But can use arrays of primitive types
-        //Pair pair3 = new Pair<String, int[]>("a", new int[] {5, 7});
-        Pair<String, Integer> pair1_new = new Pair<String, Integer>("a", 5);
-        System.out.println("pair1 == pair1_new:         " + (pair1 == pair1_new));
-        System.out.println("pair1.equals(pair1_new):    " + pair1.equals(pair1_new));
-        System.out.println("pair1.compareTo(pair1_new): " + pair1.compareTo(pair1_new));
+        Pair<Integer, Integer> pair1 = new Pair<Integer, Integer>(1, 2);
+        Pair<Integer, Integer> pair2 = new Pair<Integer, Integer>(1, 2);
+        System.out.println("pair1 == pair2:      " + (pair1 == pair2));
+        System.out.println("pair1.equals(pair2): " + pair1.equals(pair2));
 
-        // For real equality we can use a pool of objects.
-        HashMap<Pair, Integer> hashMap = new HashMap<Pair, Integer>();
-        hashMap.put(pair1, 1);
-        hashMap.put(pair1, 2);
-        System.out.println("HashMap size: " + hashMap.size());
+        HashMap<Pair<Integer, Integer>, Integer> hashMap =
+                new HashMap<Pair<Integer, Integer>, Integer>();
+        hashMap.put(pair1, 5);
+        hashMap.put(pair1, 6);
+        System.out.println("hashMap.size(): " + hashMap.size());
+        hashMap.put(pair2, 7);
+        System.out.println("hashMap.size(): " + hashMap.size());
 
-        hashMap.put(pair1_new, 3);
-        System.out.println("HashMap size: " + hashMap.size());
+        System.out.println("pair1.hashCode(): " + pair1.hashCode());
+        System.out.println("pair2.hashCode(): " + pair2.hashCode());
+
+        //System.out.println("pair1 <  pair2:      " + (pair1 < pair2));
+        System.out.println("pair1.compareTo(pair2): " + pair1.compareTo(pair2));
+
+        Pair<A1, A1> pair3 = new Pair<A1, A1>(new A1(), new A1());
+        Pair<A2, A2> pair4 = new Pair<A2, A2>(new A2(), new A2());
+        int res = pair3.compareTo(pair4);
+
+        System.out.println(pair1);
     }
 }
