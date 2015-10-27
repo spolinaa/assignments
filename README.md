@@ -39,4 +39,4 @@ for logical and console interface parts.
 1. (4 points) A generic abstract class of an ordered list. It should implement `Comparable`. Two implementations: with arrays and with lists.
 Custom `hashCode()` and `equals()` methods must be implemented.
 You can't use containers from the standard library, except ordinary arrays. This task must be solved on Java.
-2. (1 point) Rewrite previous task on Kotlin using data classes.
+2. (2 point) Rewrite previous task on Kotlin using data classes.
