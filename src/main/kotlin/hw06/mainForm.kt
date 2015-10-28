@@ -8,7 +8,8 @@ import javax.swing.*
 import java.awt.event.*
 import java.awt.*
 
-class mainForm : JFrame(), ActionListener {
+class MainForm : JFrame(), ActionListener {
+    private object GUI : Logic() {}
     private val buttons = Array(3, { Array(3, { JButton() }) })
     private val playButton = JButton("Play")
     private val statusLabel = JLabel("")
@@ -18,9 +19,9 @@ class mainForm : JFrame(), ActionListener {
         isResizable = true
         val centerPanel = JPanel(GridLayout(3, 3))
         val font = Font("Arial", Font.BOLD, 32)
+        buttons.forEach { _ -> JButton("")  }
         for (i in 0..2)
             for (j in 0..2) {
-                buttons[i][j] = JButton(" ")
                 buttons[i][j].font = font
                 buttons[i][j].addActionListener(this)
                 buttons[i][j].isFocusable = false
@@ -37,9 +38,7 @@ class mainForm : JFrame(), ActionListener {
         southPanel.background = Color.cyan
         centerPanel.background = Color.cyan
         southPanel.add(playButton)
-        playButton.text = "Play"
         setSize(300, 350)
-
         setLocationRelativeTo(null) //to center
     }
     private fun setButtonsEnabled(enabled : Boolean) {
@@ -51,7 +50,7 @@ class mainForm : JFrame(), ActionListener {
         }
     }
     override fun actionPerformed(event: ActionEvent) {
-        if (event.source === playButton) {
+        if (event.source == playButton) {
             GUI.clear()
             statusLabel.text = ""
             setButtonsEnabled(true)
@@ -60,7 +59,7 @@ class mainForm : JFrame(), ActionListener {
         else {
             for (i in 0..2) {
                 for (j in 0..2) {
-                    if (event.source === buttons[i][j]) {
+                    if (event.source == buttons[i][j]) {
                         val add = GUI.add(i, j)
                         val sign =
                                 when (GUI.array[i][j]) {
@@ -96,7 +95,7 @@ class mainForm : JFrame(), ActionListener {
     companion object {
         @JvmStatic fun main(args: Array<String>) {
             GUI.clear()
-            mainForm().isVisible = true
+            MainForm().isVisible = true
         }
     }
 }

@@ -5,8 +5,8 @@ by Sokolova Polina */
 package hw06
 
 open internal class Logic() {
-    var array  = arrayOf(arrayOf(0, 0, 0), arrayOf(0, 0, 0), arrayOf(0, 0, 0))
-    var turn = 0
+    internal var array  = arrayOf(arrayOf(0, 0, 0), arrayOf(0, 0, 0), arrayOf(0, 0, 0))
+    internal var turn = 0
     public fun clear() {
         array = arrayOf(arrayOf(0, 0, 0), arrayOf(0, 0, 0), arrayOf(0, 0, 0))
         turn = 0
@@ -20,6 +20,13 @@ open internal class Logic() {
         if (line == 8 || column == 8) { return 2 }
         if (a == b) {
             val diagonal = array[0][0] * array[1][1] * array[2][2]
+            when (diagonal) {
+                1 -> { return 1 }
+                8 -> { return 2 }
+            }
+        }
+        if (a + b == 2) {
+            val diagonal = array[2][0] * array[1][1] * array[0][2]
             when (diagonal) {
                 1 -> { return 1 }
                 8 -> { return 2 }
@@ -76,6 +83,7 @@ public object Console : Logic() {
                 }
                 else {
                     val add = add(resArray[0], resArray[1])
+                    print()
                     when (add) {
                         1 -> { return 1 }
                         2 -> { return 2 }
@@ -95,6 +103,8 @@ public object Console : Logic() {
     }
 }
 
-object GUI : Logic() {}
 
-fun main(args : Array<String>) {}
+
+fun main(args : Array<String>) {
+    Console.startGame()
+}
