@@ -10,7 +10,7 @@ import java.awt.*
 
 class MainForm : JFrame(), ActionListener {
     private object GUI : Logic() {}
-    private val buttons = Array(3, { Array(3, { JButton() }) })
+    internal val buttons : Array<Array<JButton>> = Array(3, { Array(3, { JButton() }) })
     private val playButton = JButton("Play")
     private val statusLabel = JLabel("")
     init {
@@ -19,7 +19,7 @@ class MainForm : JFrame(), ActionListener {
         isResizable = true
         val centerPanel = JPanel(GridLayout(3, 3))
         val font = Font("Arial", Font.BOLD, 32)
-        buttons.forEach { _ -> JButton("")  }
+        buttons.forEach { JButton("")  }
         for (i in 0..2)
             for (j in 0..2) {
                 buttons[i][j].font = font

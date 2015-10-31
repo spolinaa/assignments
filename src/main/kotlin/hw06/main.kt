@@ -96,13 +96,12 @@ public object Console : Logic() {
     override public fun startGame() {
         val result = fill()
         when (result) {
-            1    -> println("Tic won!")
-            2    -> println("Toe won!")
-            else -> println("Draw!")
+            1    -> print("Tic won!\n")
+            2    -> print("Toe won!\n")
+            else -> print("Draw!\n")
         }
     }
 }
-
 
 
 fun main(args : Array<String>) {
