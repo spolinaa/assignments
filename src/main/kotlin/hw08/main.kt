@@ -48,6 +48,11 @@ abstract public class Tree() : MySet {
             throw NoSuchElementException()
         }
     }
+    override fun toString(): String =
+            StringBuilder().let { sb ->
+                this.forEach { sb.append("$it ") }
+                sb.append("\n")
+            }.toString()
     internal fun height() : Int  {
         if (this is Node) { return 1 + Math.max(this.l.height(), this.r.height()) }
         return 0
@@ -264,6 +269,11 @@ public class HashTable(protected val size : Int) : MySet {
         }
     }
     override fun iterator() : Iterator<Int> = HashTableIterator()
+    override fun toString(): String =
+            StringBuilder().let { sb ->
+                hashTable.forEach { sb.append("$it ") }
+                sb.append("\n")
+            }.toString()
 
     override public fun insert(a : Int) : HashTable {
         if (!this.search(a)) { hashTable[hash(a)].add(0, a) }
@@ -315,12 +325,12 @@ public class HashTable(protected val size : Int) : MySet {
 }
 
 public fun main(args : Array<String>) {
-   /* val tree = Node(5, Node(3, Node(1, Empty(), Empty()), Empty()), Empty())
+/*    val tree = Node(5, Node(3, Node(1, Empty(), Empty()), Empty()), Empty())
     val hash = HashTable(3)
     hash.insert(0)
     hash.insert(1)
     hash.insert(2)
     hash.insert(3)
     print(hash)
-    print(tree) */
+    print(tree)*/
 }
