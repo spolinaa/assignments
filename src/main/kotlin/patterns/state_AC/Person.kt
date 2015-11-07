@@ -1,15 +1,17 @@
 package patterns.State_AC
 
+import java.util.*
+
 /**
  * Created by Alexander Chebykin
  * */
 
-private abstract class State(private val person: Person) {
+private abstract class State() {
     abstract fun act()
     abstract fun nextState(state : String)
 }
 
-private class AliveState(private val person: Person) : State(person) {
+private class AliveState(private val person: Person) : State() {
     override fun act() {
         println("I'm alive!\n")
         nextState("dead")
@@ -20,7 +22,7 @@ private class AliveState(private val person: Person) : State(person) {
     }
 }
 
-private class DeadState(private val person: Person) : State(person) {
+private class DeadState(private val person: Person) : State() {
     override fun act() {
         println("I'm dead!\n")
         nextState("zombie")
@@ -31,7 +33,7 @@ private class DeadState(private val person: Person) : State(person) {
     }
 }
 
-private class ZombieState(private val person: Person) : State(person) {
+private class ZombieState(private val person: Person) : State() {
     var count = 0
     override fun act() {
         println("BRAAAAAINS")
@@ -53,10 +55,10 @@ public class Person() {
     private val states = hashMapOf(Pair("alive", AliveState(this)),
             Pair("dead", DeadState(this)), Pair("zombie", ZombieState(this)))
 
-    private var currentState : State = states.getOrDefault("alive", AliveState(this))
+    private var currentState : State = states.get("alive") ?: throw NoSuchElementException()
 
     public fun changeState(newState : String){
-        currentState = states.getOrDefault(newState, AliveState(this))
+        currentState = states.get(newState) ?: throw NoSuchElementException()
     }
 
     public fun act(){
