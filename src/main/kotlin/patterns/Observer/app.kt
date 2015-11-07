@@ -1,28 +1,18 @@
-package patterns.Observer
+package patterns.observer_example
 
 import java.util.*
 
 
 public class  BaggageInfo( private val flight : Int, private val from : String, private val carousel : Int) {
 
-
-    public fun FlightNumber(): Int {
-        return flight
-    }
-
-    public fun From(): String {
-        return from
-    }
-
-    public fun Carousel(): Int {
-        return carousel
-    }
+    public fun flightNumber(): Int = flight
+    public fun from(): String = from
+    public fun carousel(): Int = carousel
 }
 
 public class BaggageHandler() : Observable() {
     val observers = ArrayList<Observer>()
     val flights = ArrayList<BaggageInfo>()
-
 
     public fun Subscribe(observer: Observer) {
 
@@ -55,7 +45,7 @@ public class BaggageHandler() : Observable() {
             var flightsToRemove = ArrayList<BaggageInfo>()
 
             for (flight in flights) {
-                if (info.FlightNumber() == flight.FlightNumber()) {
+                if (info.flightNumber() == flight.flightNumber()) {
                     flightsToRemove.add(flight)
                     for (observer in observers)
                         observer.update(this, info)
@@ -91,9 +81,9 @@ public class  ArrivalsMonitor(private val name : String) : Observer {
 
         val info = info as BaggageInfo
 
-        if (info.Carousel() == 0) {
+        if (info.carousel() == 0) {
             var flightsToRemove = ArrayList<String>()
-            val flightNo = info.FlightNumber().toString()
+            val flightNo = info.flightNumber().toString()
 
             for (flightInfo in flightInfos) {
                 if (flightInfo.substring(20..22).equals(flightNo)) {
@@ -106,13 +96,13 @@ public class  ArrivalsMonitor(private val name : String) : Observer {
 
             flightsToRemove.clear()
         } else {
-            var count = 20 - info.From().length
+            var count = 20 - info.from().length
             var spaces = ""
             while (count > 0) {
                 spaces += " "
                 count--
             }
-            val flightInfo = info.From() + spaces + info.FlightNumber() + " " + info.Carousel()
+            val flightInfo = info.from() + spaces + info.flightNumber() + " " + info.carousel()
             if (!flightInfos.contains(flightInfo)) {
                 flightInfos.add(flightInfo)
                 updated = true
@@ -128,11 +118,10 @@ public class  ArrivalsMonitor(private val name : String) : Observer {
     }
 }
 
-public fun main(args : Array<String>)
-{
+public fun main(args : Array<String>) {
     val provider = BaggageHandler()
-    val observer1 =  ArrivalsMonitor("BaggageClaimMonitor1")
-    val observer2 =  ArrivalsMonitor("SecurityExit")
+    val observer1 = ArrivalsMonitor("BaggageClaimMonitor1")
+    val observer2 = ArrivalsMonitor("SecurityExit")
     provider.BaggageStatus(712, "Detroit", 3)
     observer1.Subscribe(provider)
     provider.BaggageStatus(712, "Kalamazoo", 3)
