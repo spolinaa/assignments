@@ -26,7 +26,6 @@ fun main(args: Array<String>) {
     cw.visitEnd()
 
     val bytes = cw.toByteArray()
-
     val targetFile = Paths.get("HelloWorld.class")
     Files.write(targetFile, bytes)
 }
