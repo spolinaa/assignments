@@ -1,7 +1,7 @@
 package patterns.Strategy
 import java.security.MessageDigest;
-public class MD5(){
-    public fun computeHash(password : String) : String {
+public class MD5 () : IHasher{
+    override public fun computeHash(password : String) : String {
         val md = MessageDigest.getInstance("MD5")
         md.update(password.toByteArray())
         val byteData = md.digest()
@@ -12,9 +12,9 @@ public class MD5(){
         return sb.toString()
     }
 }
-public class SHA256 (){
-    public fun computeHash(password : String) : String {
-        val md = MessageDigest.getInstance("SHA")
+public class SHA256 (): IHasher{
+    override public fun computeHash(password : String) : String {
+        val md = MessageDigest.getInstance("SHA-256")
         md.update(password.toByteArray())
         val byteData = md.digest()
         val sb = StringBuilder()
