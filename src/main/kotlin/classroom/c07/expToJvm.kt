@@ -22,7 +22,7 @@ internal sealed class Expr() {
         }
     }
 
-    enum class Operation {
+    public enum class Operation {
         Plus, Minus, Multiply, Divide
     }
 
@@ -31,13 +31,16 @@ internal sealed class Expr() {
         override fun visit(mw: MethodVisitor) {
             l.visit(mw)
             r.visit(mw)
-            when (op) {
-                Operation.Plus     -> mw.visitInsn(IADD)
-                Operation.Minus    -> mw.visitInsn(ISUB)
-                Operation.Multiply -> mw.visitInsn(IMUL)
-                Operation.Divide   -> mw.visitInsn(IDIV)
-            }
+            mw.visitInsn(op.toCmd())
         }
+
+        private fun Operation.toCmd(): Int =
+                when (this) {
+                    Operation.Plus     -> IADD
+                    Operation.Minus    -> ISUB
+                    Operation.Multiply -> IMUL
+                    Operation.Divide   -> IDIV
+                }
     }
 
     public fun getClassWriter(name: String): ClassWriter {
@@ -68,23 +71,37 @@ internal sealed class Expr() {
     }
 }
 
-class ByteArrayClassLoader(): ClassLoader() {
+internal class ByteArrayClassLoader(): ClassLoader() {
     fun loadClass(name: String?, buf: ByteArray): Class<*>? {
         return super.defineClass(name, buf, 0, buf.size)
     }
 }
 
-fun main(args: Array<String>) {
+internal fun expressionExample(): Expr {
     val const10  = Expr.Const(10)
     val const239 = Expr.Const(239)
-    val expr0  = Expr.BinOp(Expr.Operation.Minus, const10, const10)
-    val expr10 = Expr.BinOp(Expr.Operation.Minus, const10, expr0)
-    val expr   = Expr.BinOp(Expr.Operation.Minus, expr10, const239)
+    val expr0  = Expr.BinOp(Expr.Operation.Minus, const10, const10 )
+    val expr10 = Expr.BinOp(Expr.Operation.Minus, const10, expr0   )
+    val expr   = Expr.BinOp(Expr.Operation.Minus,  expr10, const239)
+    return expr
+}
 
-    val name = "Expr"
+internal fun saveToDisk(name: String, classByteArray: ByteArray) {
+    val targetFile = Paths.get("$name.class")
+    Files.write(targetFile, classByteArray)
+}
+
+internal fun generateClassByteArray(name: String, expr: Expr): ByteArray {
     val cw = expr.getClassWriter(name)
+    return cw.toByteArray()
+}
+
+internal fun main(args: Array<String>) {
+    val expr = expressionExample()
+    val name = "Expr"
+
+    val classByteArray = generateClassByteArray(name, expr)
     val cl = ByteArrayClassLoader()
-    val classByteArray = cw.toByteArray()
     val exprClass = cl.loadClass(name, classByteArray)
     val methods = exprClass?.methods
     if (methods == null || methods.isEmpty()) { throw Exception() }
@@ -95,6 +112,5 @@ fun main(args: Array<String>) {
         break
     }
 
-    val targetFile = Paths.get("$name.class")
-    Files.write(targetFile, classByteArray)
+    saveToDisk(name, classByteArray)
 }
