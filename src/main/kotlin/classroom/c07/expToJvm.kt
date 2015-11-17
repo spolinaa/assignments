@@ -6,7 +6,7 @@ import org.objectweb.asm.Opcodes.*
 import java.nio.file.Files
 import java.nio.file.Paths
 
-internal sealed class Expr() {
+public sealed class Expr() {
     abstract public fun visit(mw: MethodVisitor)
     abstract public fun stackUsage(): Int
 
@@ -94,12 +94,12 @@ internal fun expressionExample(): Expr {
     return expr
 }
 
-internal fun saveToDisk(classByteArray: ByteArray) {
+public fun saveToDisk(classByteArray: ByteArray) {
     val targetFile = Paths.get("${Expr.className}.class")
     Files.write(targetFile, classByteArray)
 }
 
-internal fun loadClassAndRun(classByteArray: ByteArray): Any? {
+public fun loadClassAndRun(classByteArray: ByteArray): Any? {
     val cl = ByteArrayClassLoader()
     val exprClass = cl.loadClass(Expr.className, classByteArray)
     val methods = exprClass?.methods
@@ -111,7 +111,7 @@ internal fun loadClassAndRun(classByteArray: ByteArray): Any? {
     return null
 }
 
-internal fun main(args: Array<String>) {
+public fun main(args: Array<String>) {
     val expr = expressionExample()
     val classByteArray = expr.generateClassByteArray()
 
