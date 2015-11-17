@@ -5,7 +5,6 @@ import java.nio.file.Files
 import java.nio.file.Paths
 import org.objectweb.asm.Opcodes.*
 
-@Throws(Exception::class)
 fun main(args: Array<String>) {
     val cw = ClassWriter(0)
     cw.visit(V1_7, ACC_PUBLIC, "HelloWorld", null, "java/lang/Object", null)
