@@ -13,11 +13,9 @@ public fun getHash(input : String) : String {
 }
 
 //the optimal one
-public class Context {
+public class Context() {
     private var strategy : IHasher = MD5()
-    public constructor() {
-    }
-    public constructor(str : IHasher) {
+    public fun setStrategy(str : IHasher){
         strategy = str
     }
     public fun executeStrategy(input : String) : String {
@@ -32,6 +30,6 @@ fun main(args: Array<String>) {
     //the traditional one
     var context = Context()
     println("MD5     is ${context.executeStrategy("Web Biscuit")}")
-    context = Context(SHA256())
+    context.setStrategy(SHA256())
     println("SHA-256 is ${context.executeStrategy("Web Biscuit")}")
 }
