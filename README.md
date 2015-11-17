@@ -45,10 +45,13 @@ You can't use containers from the standard library, except ordinary arrays. This
 1. (4 points) An `Iterable` implementation for containers from the problem 4.1.
 
 ### Homework 9 (17.11 - 01.12):
-1. (6 points) A compiler from [Brainfuck](https://en.wikipedia.org/wiki/Brainfuck) to JVM.
+1. (2 points) An interpreter for [Brainfuck](https://en.wikipedia.org/wiki/Brainfuck).
+It must be able to get text of a Brainfuck program and interpret it.
+One of tests should be [hello world program](https://en.wikipedia.org/wiki/Brainfuck#Hello_World.21).
+2. (6 points) A compiler from [Brainfuck](https://en.wikipedia.org/wiki/Brainfuck) to JVM.
 It must be able to get text of a Brainfuck program and generate an appropriate .class file.
 One of tests should be [hello world program](https://en.wikipedia.org/wiki/Brainfuck#Hello_World.21).
-2. * (2 points) A compiler form [Petooh](https://github.com/Ky6uk/PETOOH) to JVM. Same rules.
-3. ** (8 points) A converter from an ASCII text to a short Brainfuck program, which prints this text.
+3. * (2 points) A compiler form [Petooh](https://github.com/Ky6uk/PETOOH) to JVM. Same rules.
+4. ** (8 points) A converter from an ASCII text to a short Brainfuck program, which prints this text.
 The best work is going to be awarded.
-4. (4 points) Code review of 1st task. It should be completed till 24.12.
+5. (4 points) Code review of 1st task. It should be completed till 24.11.
