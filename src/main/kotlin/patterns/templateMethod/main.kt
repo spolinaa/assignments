@@ -3,37 +3,51 @@ by Sokolova Polina */
 
 package patterns.templateMethod
 
-abstract class Guitar() {
-    abstract public val amplification : String
-    abstract public val strings : Int
-    abstract public val role    : String
-    abstract public fun tuner()
-
-}
-
-class GibsonLesPaul() : Guitar() {
-    override val amplification = "Electric"
-    override val strings = 6
-    override val role = "Solo"
-    override public fun tuner() {
-        //tuning a guitar
+abstract class Instrument() {
+    abstract protected fun instrument() : String
+    abstract protected fun tuning()
+    abstract protected val model : String
+    public fun play() {
+        println("Let's buy " + instrument() + model)
+        tuning()
+        println("Enjoy playing!\n")
     }
 }
 
-class FenderTelecaster() : Guitar() {
-    override val amplification = "Electric"
-    override val strings = 6
-    override val role = "Rhythm"
-    override public fun tuner() {
-        //tuning a guitar
+class Guitar(override val model : String) : Instrument() {
+    override protected fun instrument() : String {
+        return "a guitar "
+    }
+    override protected fun tuning() {
+        println("Tuning a guitar")
     }
 }
 
-class YamahaAPX700() : Guitar() {
-    override val amplification = "Acoustic-electric"
-    override val strings = 12
-    override val role = "Rhythm"
-    override public fun tuner() {
-        //tuning a guitar
+class Piano(override val model : String) : Instrument() {
+    override protected fun instrument() : String {
+        return "a piano "
     }
+    override protected fun tuning() {
+        println("Setting a piano")
+    }
+}
+
+class Drums(override val model : String) : Instrument() {
+    override protected fun instrument() : String {
+        return "a drum kit "
+    }
+    override protected fun tuning() {
+        println("Setting drums")
+    }
+}
+
+fun main(args : Array<String>) {
+    val gibson = Guitar("Gibson Les Paul Standard 2015")
+    gibson.play()
+
+    val kawai = Piano("KAWAI ES100")
+    kawai.play()
+
+    val yamaha = Drums("Yamaha DTX950K")
+    yamaha.play()
 }
