@@ -43,11 +43,11 @@ internal sealed class Expr() {
                 }
     }
 
-    public fun getClassWriter(name: String): ClassWriter {
+    private fun getClassWriter(): ClassWriter {
         val cw = ClassWriter(0)
-        cw.visit(V1_7, ACC_PUBLIC, name, null, "java/lang/Object", null)
+        cw.visit(V1_7, ACC_PUBLIC, className, null, "java/lang/Object", null)
 
-        val mw = cw.visitMethod(ACC_PUBLIC or ACC_STATIC, "calc",
+        val mw = cw.visitMethod(ACC_PUBLIC or ACC_STATIC, calcMethodName,
                 "()I", null, null)
         visit(mw)
         mw.visitInsn(IRETURN)
@@ -58,7 +58,7 @@ internal sealed class Expr() {
                 "([Ljava/lang/String;)V", null, null)
         mainMethodVisitor.visitFieldInsn(GETSTATIC, "java/lang/System",
                 "out", "Ljava/io/PrintStream;")
-        mainMethodVisitor.visitMethodInsn(INVOKESTATIC, name, "calc", "()I")
+        mainMethodVisitor.visitMethodInsn(INVOKESTATIC, className, calcMethodName, "()I")
         mainMethodVisitor.visitMethodInsn(INVOKEVIRTUAL,
                 "java/io/PrintStream", "println",
                 "(I)V")
@@ -69,6 +69,14 @@ internal sealed class Expr() {
 
         return cw
     }
+
+    companion object {
+        val calcMethodName: String = "calc"
+        val className: String = "Expr"
+    }
+
+    public fun generateClassByteArray(): ByteArray =
+            this.getClassWriter().toByteArray()
 }
 
 internal class ByteArrayClassLoader(): ClassLoader() {
@@ -86,31 +94,29 @@ internal fun expressionExample(): Expr {
     return expr
 }
 
-internal fun saveToDisk(name: String, classByteArray: ByteArray) {
-    val targetFile = Paths.get("$name.class")
+internal fun saveToDisk(classByteArray: ByteArray) {
+    val targetFile = Paths.get("${Expr.className}.class")
     Files.write(targetFile, classByteArray)
 }
 
-internal fun generateClassByteArray(name: String, expr: Expr): ByteArray {
-    val cw = expr.getClassWriter(name)
-    return cw.toByteArray()
+internal fun loadClassAndRun(classByteArray: ByteArray): Any? {
+    val cl = ByteArrayClassLoader()
+    val exprClass = cl.loadClass(Expr.className, classByteArray)
+    val methods = exprClass?.methods
+    if (methods == null || methods.isEmpty()) { throw Exception() }
+    for (method in methods) {
+        if (method.name != Expr.calcMethodName) { continue }
+        return method.invoke(null)
+    }
+    return null
 }
 
 internal fun main(args: Array<String>) {
     val expr = expressionExample()
-    val name = "Expr"
+    val classByteArray = expr.generateClassByteArray()
 
-    val classByteArray = generateClassByteArray(name, expr)
-    val cl = ByteArrayClassLoader()
-    val exprClass = cl.loadClass(name, classByteArray)
-    val methods = exprClass?.methods
-    if (methods == null || methods.isEmpty()) { throw Exception() }
-    for (method in methods) {
-        if (method.name != "calc") { continue }
-        val result = method.invoke(null)
-        println("result: $result")
-        break
-    }
+    val result = loadClassAndRun(classByteArray)
+    println("result: $result")
 
-    saveToDisk(name, classByteArray)
+    saveToDisk(classByteArray)
 }
