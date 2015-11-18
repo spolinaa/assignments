@@ -1,6 +1,5 @@
 package patterns.Strategy
 
-
 public fun firstHash(input : String) : String {
     val hasher : MD5  = MD5()
     return hasher.computeHash(input)
