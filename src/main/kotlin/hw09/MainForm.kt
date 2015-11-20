@@ -1,3 +1,7 @@
+/* GUI for Brainfuck interpreter and converter
+(expectation: 2 h; reality: 2,5 h)
+by Sokolova Polina */
+
 package hw09
 
 import javax.swing.*
@@ -7,7 +11,6 @@ public class MainForm : JFrame(), ActionListener {
     private val interpretButton = JButton("Interpret")
     private val convertButton = JButton("Convert")
     private val textInField = JTextArea(20, 50)
-
     init {
         title = "Brainfuck interpreter and converter"
         defaultCloseOperation = JFrame.EXIT_ON_CLOSE
