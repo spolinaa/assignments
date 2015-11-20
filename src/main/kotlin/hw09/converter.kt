@@ -21,11 +21,9 @@ public class Converter(val s : String) {
     }
     private fun makeLoop(start : String, j : Int) : String {
         var res  = start + "["
+        var p = "+"
         for (i in 0..length - 1) {
-            res += ">"
-            for (k in 0..partNumber[i][j] - 1) {
-                res += "+"
-            }
+            res += ">" + p.repeat(partNumber[i][j])
         }
         for (i in 0..length - 1) {
             res += "<"
@@ -36,39 +34,36 @@ public class Converter(val s : String) {
     private fun remainder() : String {
         var res = ""
         var col = 2
+        var p = "+"
         for (i in 0..length - 1) {
-            res += ">"
-            for (k in 0..partNumber[i][col] - 1) {
-                res += "+"
-            }
-            res += "."
+            res += ">" + p.repeat(partNumber[i][col]) + "."
         }
         return res
     }
     public fun convert() : String {
-        var min = sum()
-        var minProgram = ""
-        for (i in 1..64) {
-            for (j in 1..i) {
+        var minProgram = noLoop()
+        var minLength  = minProgram.length
+        var p = "+"
+        for (i in 2..64) {
+            for (j in 1..i - 1) {
                 parse(i, j)
-                var p1 = ""
-                var p2 = ""
-                for (k in 1..i) { p1 += "+" }
-                for (k in 1..j) { p2 += "+" }
+                var p1 = p.repeat(i)
+                var p2 = p.repeat(j)
                 var res = makeLoop(p1, 0) + makeLoop(p2, 1) + remainder()
-                if (res.length < min) {
-                    min = res.length
+                if (res.length < minLength) {
+                    minLength  = res.length
                     minProgram = res
                 }
             }
         }
         return minProgram
     }
-    private fun sum() : Int {
-        var sum = 2 * length
+    private fun noLoop() : String {
+        var res = ""
+        var p = "+"
         for (i in 0..length - 1) {
-            sum += s[i].toInt()
+            res += p.repeat(s[i].toInt()) + ".>"
         }
-        return sum
+        return res
     }
 }
