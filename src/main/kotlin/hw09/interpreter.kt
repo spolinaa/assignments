@@ -19,7 +19,6 @@ public class Interpreter() {
                     ']' -> {
                         counter--
                         if (counter == 0) { return pos }
-                        j++
                     }
                 }
                 pos++
@@ -53,7 +52,7 @@ public class Interpreter() {
                 '[' -> {
                     counter++
                     if (array[i] == 0) { j = findEnd(j + 1) }
-                }
+                    }
                 ']' -> {
                     if (array[i] != 0) { j = findStart(j) }
                     else {
@@ -64,6 +63,5 @@ public class Interpreter() {
             }
             j++
         }
-
     }
 }
