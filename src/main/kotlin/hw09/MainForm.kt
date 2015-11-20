@@ -5,10 +5,11 @@ import java.awt.event.*
 
 public class MainForm : JFrame(), ActionListener {
     private val interpretButton = JButton("Interpret")
+    private val convertButton = JButton("Convert")
     private val textInField = JTextArea(20, 50)
 
     init {
-        title = "An interpreter for Brainfuck"
+        title = "Brainfuck interpreter and converter"
         defaultCloseOperation = JFrame.EXIT_ON_CLOSE
         isResizable = true
         val southPanel = JPanel()
@@ -17,12 +18,17 @@ public class MainForm : JFrame(), ActionListener {
         add(centerPanel, "Center")
         centerPanel.add(JScrollPane(textInField))
         southPanel.add(interpretButton)
-        interpretButton.addActionListener(this);
+        southPanel.add(convertButton)
+        interpretButton.addActionListener(this)
+        convertButton.addActionListener(this)
         setSize(650, 400)
         setLocationRelativeTo(null)
     }
     override fun actionPerformed(event : ActionEvent) {
-        Interpreter().interpret(textInField.text)
+        if (event.source == interpretButton) {
+            Interpreter().interpret(textInField.text)
+        }
+        else { println (Converter(textInField.text).convert()) }
     }
     companion object {
         @JvmStatic fun main(args: Array<String>) {

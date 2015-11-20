@@ -4,7 +4,8 @@ import org.junit.Test;
 import kotlin.test.assertEquals
 
 public class HW09Test : OutputTest() {
-    @Test fun helloWorld() {
+    //Tests for Interpreter
+    @Test fun helloWorld1() {
         val s = " ++++++++++[>+++++++>++++++++++>+++>+<<<<-]>++" +
                 ".>+.+++++++..+++.>++.<<+++++++++++++++.>.+++." +
                 "------.--------.>+.>."
@@ -41,5 +42,40 @@ public class HW09Test : OutputTest() {
         val res = "PS"
         Interpreter().interpret(s)
         assertEquals(res, output.toString())
+    }
+
+    //Tests for Converter
+    @Test fun helloWorld2() {
+        val s = "Hello World!\n"
+        val res = Converter(s).convert()
+        Interpreter().interpret(res)
+        assertEquals(s, output.toString())
+    }
+    @Test fun empty() {
+        val s = ""
+        val res = Converter(s).convert()
+        Interpreter().interpret(res)
+        assertEquals(s, output.toString())
+    }
+    @Test fun song1() {
+        val s = "You can check out any time you like\n" +
+                "But you can never leave!\n"
+
+        val res = Converter(s).convert()
+        Interpreter().interpret(res)
+        assertEquals(s, output.toString())
+    }
+    @Test fun song2() {
+        val s = "Empty spaces what are we living for\n" +
+                "Abandoned places - I guess we know the score\n"
+        val res = Converter(s).convert()
+        Interpreter().interpret(res)
+        assertEquals(s, output.toString())
+    }
+    @Test fun trash() {
+        val s = "!*&545678-+=32>32&ˆ§/?}[))982@[%$'<12"
+        val res = Converter(s).convert()
+        Interpreter().interpret(res)
+        assertEquals(s, output.toString())
     }
 }
